@@ -2,6 +2,7 @@
 import ReactiveCounter from '/@/components/ReactiveCounter.vue';
 import ReactiveHash from '/@/components/ReactiveHash.vue';
 import ElectronVersions from '/@/components/ElectronVersions.vue';
+import FlowbiteModal from '/@/components/FlowbiteModal.vue';
 
 const APP_VERSION = import.meta.env.VITE_APP_VERSION;
 </script>
@@ -29,7 +30,10 @@ const APP_VERSION = import.meta.env.VITE_APP_VERSION;
     </a>
     .
   </p>
-
+  <fieldset>
+    <legend>Test Flowbite Modal</legend>
+    <flowbite-modal />
+  </fieldset>
   <fieldset>
     <legend>Test Vue Reactivity</legend>
     <reactive-counter />
@@ -52,15 +56,7 @@ const APP_VERSION = import.meta.env.VITE_APP_VERSION;
 </template>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin: 60px auto;
-  max-width: 700px;
-}
+
 
 fieldset {
   margin: 2rem;
