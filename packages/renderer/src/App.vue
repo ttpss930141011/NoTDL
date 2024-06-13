@@ -1,73 +1,45 @@
-<script lang="ts" setup>
-import ReactiveCounter from '/@/components/ReactiveCounter.vue';
-import ReactiveHash from '/@/components/ReactiveHash.vue';
-import ElectronVersions from '/@/components/ElectronVersions.vue';
-import FlowbiteModal from '/@/components/FlowbiteModal.vue';
-
-const APP_VERSION = import.meta.env.VITE_APP_VERSION;
-</script>
-
 <template>
-  <img
-    alt="Vue logo"
-    src="../assets/logo.svg"
-    width="150"
-  />
+  <v-responsive
+    class="border rounded"
+    height="100%"
+  >
+    <v-app :theme="theme">
+      <v-app-bar
+        class="px-3"
+        density="compact"
+      >
+        <template #prepend>
+          <v-icon
+            color="blue-darken-2"
+            icon="mdi-checkbox-marked-circle-auto-outline"
+            size="large"
+          ></v-icon>
+        </template>
 
-  <p>
-    <!-- Example how to inject current app version to UI -->
-    App version: {{ APP_VERSION }}
-  </p>
+        <v-app-bar-title>NoTDL</v-app-bar-title>
+        <v-spacer></v-spacer>
+        <v-btn
+          :icon="theme === 'light' ? 'mdi-weather-sunny' : 'mdi-weather-night'"
+          slim
+          @click="onClick"
+        ></v-btn>
+      </v-app-bar>
 
-  <p>
-    For a guide and recipes on how to configure / customize this project,<br />
-    check out the
-    <a
-      href="https://github.com/cawa-93/vite-electron-builder"
-      target="_blank"
-    >
-      vite-electron-builder documentation
-    </a>
-    .
-  </p>
-  <fieldset>
-    <legend>Test Flowbite Modal</legend>
-    <flowbite-modal />
-  </fieldset>
-  <fieldset>
-    <legend>Test Vue Reactivity</legend>
-    <reactive-counter />
-  </fieldset>
-
-  <fieldset>
-    <legend>Test Node.js API</legend>
-    <reactive-hash />
-  </fieldset>
-
-  <fieldset>
-    <legend>Environment</legend>
-    <electron-versions />
-  </fieldset>
-
-  <p>
-    Edit
-    <code>packages/renderer/src/App.vue</code> to test hot module replacement.
-  </p>
+      <v-main>
+        <v-container>
+          <Main />
+        </v-container>
+      </v-main>
+    </v-app>
+  </v-responsive>
 </template>
+<script setup>
+import {ref} from 'vue';
+import Main from '/src/components/MainPage.vue';
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin: 60px auto;
-  max-width: 700px;
-}
+const theme = ref('light');
 
-fieldset {
-  margin: 2rem;
-  padding: 1rem;
+function onClick() {
+  theme.value = theme.value === 'light' ? 'dark' : 'light';
 }
-</style>
+</script>
