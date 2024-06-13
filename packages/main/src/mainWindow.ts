@@ -3,8 +3,20 @@ import {join} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
 async function createWindow() {
+  console.log(join(app.getAppPath(), 'packages/main/assets/icon.png'));
   const browserWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
     show: false, // Use the 'ready-to-show' event to show the instantiated BrowserWindow.
+    center: true,
+    autoHideMenuBar: true,
+    title: 'NoTDL',
+    // frame: false,
+    vibrancy: 'under-window',
+    visualEffectState: 'active',
+    // titleBarStyle: 'hidden',
+    trafficLightPosition: {x: 15, y: 10},
+    icon: join(app.getAppPath(), 'packages/main/assets/icon.png'),
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
