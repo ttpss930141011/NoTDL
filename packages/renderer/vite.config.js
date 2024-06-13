@@ -40,6 +40,12 @@ const config = {
   },
   test: {
     environment: 'happy-dom',
+    globals: true,
+    server: {
+      deps: {
+        inline: ['vuetify'],
+      },
+    },
   },
   plugins: [
     vue(),
