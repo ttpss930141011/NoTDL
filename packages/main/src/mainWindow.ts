@@ -15,7 +15,6 @@ async function createDataSource() {
   }
 }
 
-
 /**
  * Create a new BrowserWindow.
  */
