@@ -1,7 +1,24 @@
 import {app, BrowserWindow} from 'electron';
 import {join} from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {datasource} from '../database';
 
+/**
+ * Create a new DataSource.
+ */
+async function createDataSource() {
+  try {
+    await datasource.initialize();
+    console.log('DataSource initialized.');
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
+/**
+ * Create a new BrowserWindow.
+ */
 async function createWindow() {
   console.log(join(app.getAppPath(), 'packages/main/assets/icon.png'));
   const browserWindow = new BrowserWindow({
@@ -75,6 +92,7 @@ export async function restoreOrCreateWindow() {
   let window = BrowserWindow.getAllWindows().find(w => !w.isDestroyed());
 
   if (window === undefined) {
+    await createDataSource();
     window = await createWindow();
   }
 
