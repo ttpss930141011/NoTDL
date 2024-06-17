@@ -26,17 +26,14 @@
       </v-app-bar>
 
       <v-main>
-        <v-container>
-          <Main />
-        </v-container>
+        <Main />
       </v-main>
     </v-app>
   </v-responsive>
 </template>
 <script setup>
 import {ref} from 'vue';
-import Main from '/src/components/MainPage.vue';
-
+import Main from '/@/components/MainPage.vue';
 const theme = ref('light');
 
 function onClick() {
