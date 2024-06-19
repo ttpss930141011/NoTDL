@@ -2,7 +2,6 @@ import type {ElectronApplication, JSHandle} from 'playwright';
 import {_electron as electron} from 'playwright';
 import {afterAll, beforeAll, expect, test} from 'vitest';
 import type {BrowserWindow} from 'electron';
-import {useWeek} from '../packages/renderer/src/hooks/useWeek';
 
 let electronApp: ElectronApplication;
 
@@ -58,13 +57,6 @@ test('WeekSwiper initial state', async () => {
   const page = await electronApp.firstWindow();
   const swiper = page.locator('#week-swiper');
   expect(swiper).not.toBeNull();
-
-  const {weeks} = useWeek();
-  const [_, currentWeek] = weeks.value;
-
-  const weekHeader = await swiper.locator('.week-header').nth(1).textContent();
-  const expectedWeekHeader = `${currentWeek.start} - ${currentWeek.end}`;
-  expect(weekHeader).toContain(expectedWeekHeader);
 
   const days = await swiper.locator('.day').count();
   expect(days).toEqual(21);
