@@ -1,32 +1,43 @@
-import {ref} from 'vue';
+import {computed, reactive, ref, watch} from 'vue';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
+import type {Day, Week} from '/@/types/week';
 
 dayjs.extend(isoWeek);
 
-interface Day {
-  date: string;
-  activities: string;
-}
-
-interface Week {
-  start: string;
-  end: string;
-  days: Day[];
-}
-
 export function useWeek() {
-  const currentWeek = ref<dayjs.Dayjs>(dayjs());
+  const currentDate = ref<dayjs.Dayjs>(dayjs());
+  const selectedDayIndex = ref<number>(currentDate.value.day());
+  const selectedDay = ref<Day>({
+    rawDate: currentDate.value,
+    date: currentDate.value.format('DD'),
+    weekDay: currentDate.value.format('ddd'),
+    activities: 'Activity 1',
+    isToday: true,
+    isSelected: true,
+  });
+  const headerTitle = computed<string>(() => selectedDay.value.rawDate.format('YYYY / MM'));
 
+  /**
+   * Generate a week object with the days of the week.
+   * @param date
+   */
   const getWeek = (date: dayjs.Dayjs): Week => {
-    const start = date.startOf('isoWeek');
-    const end = date.endOf('isoWeek');
-    const days = [];
+    const start = date.startOf('week');
+    const end = date.endOf('week');
+    const days: Day[] = [];
     for (let i = 0; i < 7; i++) {
-      days.push({
-        date: start.add(i, 'day').format('YYYY-MM-DD'),
-        activities: `Activity ${i + 1}`,
-      });
+      const day = start.add(i, 'day');
+      days.push(
+        reactive({
+          rawDate: day,
+          date: day.format('DD'),
+          weekDay: day.format('ddd'),
+          activities: `Activity ${i + 1}`,
+          isToday: day.isSame(dayjs(), 'day'),
+          isSelected: i === selectedDayIndex.value,
+        }),
+      );
     }
     return {
       start: start.format('YYYY-MM-DD'),
@@ -35,9 +46,9 @@ export function useWeek() {
     };
   };
 
-  const current = ref<Week>(getWeek(currentWeek.value));
-  const previous = ref<Week>(getWeek(currentWeek.value.subtract(1, 'week')));
-  const next = ref<Week>(getWeek(currentWeek.value.add(1, 'week')));
+  const current = ref<Week>(getWeek(currentDate.value));
+  const previous = ref<Week>(getWeek(currentDate.value.subtract(1, 'week')));
+  const next = ref<Week>(getWeek(currentDate.value.add(1, 'week')));
 
   const weeks = ref<Week[]>([previous.value, current.value, next.value]);
 
@@ -59,9 +70,55 @@ export function useWeek() {
     weeks.value.unshift(newWeek);
   };
 
+  /**
+   * Watch the selectedDayIndex and update the isSelected property of the days in the weeks array.
+   */
+  watch(selectedDayIndex, index => {
+    weeks.value.forEach(week => {
+      week.days = week.days.map((day, i) => {
+        day.isSelected = i === index;
+        return day;
+      });
+    });
+  });
+
+  /**
+   * When the user selects a day, we need to update the selectedDay and selectedDayIndex.
+   * @param day
+   */
+  const onSelectedDay = (day: Day) => {
+    const indexOfWeek = weeks.value.findIndex(week => week.days.includes(day));
+    if (indexOfWeek === -1) return;
+    const indexOfDay = weeks.value[indexOfWeek].days.findIndex(d => d === day);
+    if (indexOfDay === -1) return;
+
+    selectedDayIndex.value = indexOfDay;
+    selectedDay.value = day;
+  };
+
+  /**
+   * When the user navigates to the previous week, we need to update the selectedDay.
+   * @param activeIndex
+   */
+  const onNavigationPrev = (activeIndex: number | undefined) => {
+    selectedDay.value = weeks.value[activeIndex!].days[selectedDayIndex.value];
+  };
+
+  /**
+   * When the user navigates to the next week, we need to update the selectedDay.
+   * @param activeIndex
+   */
+  const onNavigationNext = (activeIndex: number | undefined) => {
+    selectedDay.value = weeks.value[activeIndex!].days[selectedDayIndex.value];
+  };
+
   return {
     weeks,
+    headerTitle,
     onReachEnd,
     onReachStart,
+    onSelectedDay,
+    onNavigationPrev,
+    onNavigationNext,
   };
 }

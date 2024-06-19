@@ -5,24 +5,21 @@
   >
     <v-app :theme="theme">
       <v-app-bar
-        class="px-3"
-        density="compact"
+        height="50"
+        extension-height="64"
       >
-        <template #prepend>
-          <v-icon
-            color="blue-darken-2"
-            icon="mdi-checkbox-marked-circle-auto-outline"
-            size="large"
-          ></v-icon>
-        </template>
-
-        <v-app-bar-title>NoTDL</v-app-bar-title>
+        <v-app-bar-nav-icon></v-app-bar-nav-icon>
+        <v-app-bar-title>{{ titleHeader }}</v-app-bar-title>
         <v-spacer></v-spacer>
         <v-btn
           :icon="theme === 'light' ? 'mdi-weather-sunny' : 'mdi-weather-night'"
           slim
           @click="onClick"
-        ></v-btn>
+        />
+
+        <template #extension>
+          <WeekSwiper ref="weekSwiperRef" />
+        </template>
       </v-app-bar>
 
       <v-main>
@@ -32,9 +29,13 @@
   </v-responsive>
 </template>
 <script setup>
-import {ref} from 'vue';
+import {computed, ref} from 'vue';
 import Main from '/@/components/MainPage.vue';
+import WeekSwiper from '/@/components/WeekSwiper.vue';
+
 const theme = ref('light');
+const weekSwiperRef = ref(null);
+const titleHeader = computed(() => weekSwiperRef.value?.headerTitle);
 
 function onClick() {
   theme.value = theme.value === 'light' ? 'dark' : 'light';
