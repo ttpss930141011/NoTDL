@@ -2,28 +2,43 @@
   <div class="week-swiper-container">
     <swiper
       id="week-swiper"
+      navigation
       class="mySwiper"
       :initial-slide="1"
       :slides-per-view="1"
+      :modules="[Navigation]"
       @swiper="setSwiper"
       @slide-change-transition-end="onSlideChange"
+      @navigation-prev="() => onNavigationPrev(swiperRef?.activeIndex)"
+      @navigation-next="() => onNavigationNext(swiperRef?.activeIndex)"
     >
       <swiper-slide
         v-for="(week, index) in weeks"
         :key="index"
       >
         <div class="week-slide">
-          <div class="week-header">
-            <div>{{ week.start }} - {{ week.end }}</div>
-          </div>
           <div class="week-body">
             <div
               v-for="day in week.days"
               :key="day.date"
               class="day"
             >
-              <div>{{ day.date }}</div>
-              <div>{{ day.activities }}</div>
+              <div class="font-weight-thin text-grey-lighten-1 text-body-2"> {{ day.weekDay }}</div>
+              <v-btn
+                :variant="day.isSelected ? 'tonal' : 'text'"
+                size="x-small"
+                :class="
+                  clsx('rounded-xl', {
+                    'text-primary': day.isToday,
+                    'bg-secondary': day.isSelected && !day.isToday,
+                    'text-none': !day.isToday && !day.isSelected,
+                    'font-weight-bold': day.isToday || day.isSelected,
+                  })
+                "
+                @click="onSelectedDay(day)"
+              >
+                {{ day.date }}
+              </v-btn>
             </div>
           </div>
         </div>
@@ -38,8 +53,19 @@ import {Swiper, SwiperSlide} from 'swiper/vue';
 import 'swiper/css';
 import {useWeek} from '/@/hooks/useWeek';
 import type {Swiper as SwiperClass} from 'swiper/types';
+import clsx from 'clsx';
+import {Navigation} from 'swiper/modules';
+import 'swiper/css/navigation';
 
-const {weeks, onReachStart, onReachEnd} = useWeek();
+const {
+  weeks,
+  headerTitle,
+  onReachStart,
+  onReachEnd,
+  onSelectedDay,
+  onNavigationPrev,
+  onNavigationNext,
+} = useWeek();
 
 const swiperRef = ref<SwiperClass | null>(null);
 
@@ -55,6 +81,7 @@ const onSlideChange = () => {
     onReachEnd();
   }
 };
+defineExpose({headerTitle});
 </script>
 
 <style scoped>
@@ -72,10 +99,7 @@ const onSlideChange = () => {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.week-header {
-  font-weight: bold;
+  margin-inline: 10%;
 }
 
 .week-body {
