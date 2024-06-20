@@ -1,7 +1,9 @@
-import {app, BrowserWindow} from 'electron';
+import {app, BrowserWindow, ipcMain} from 'electron';
 import {join} from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {datasource} from '../database';
+import {datasource} from '/@/database';
+import {createTaskService, getAllTasksService, getAllTaskTitlesService} from '/@/services';
+import type {CreateTask, GetAllTasks, GetAllTaskTitles} from '/@/types/task';
 
 /**
  * Create a new DataSource.
@@ -82,6 +84,21 @@ async function createWindow() {
   }
 
   return browserWindow;
+}
+
+/**
+ * Register the event listener for ipcMain.
+ */
+export function registerIpcMain() {
+  ipcMain.handle('getAllTasksReq', (_, ...args: Parameters<GetAllTasks>) =>
+    getAllTasksService(...args),
+  );
+  ipcMain.handle('getAllTaskTitlesReq', (_, ...args: Parameters<GetAllTaskTitles>) =>
+    getAllTaskTitlesService(...args),
+  );
+  ipcMain.handle('createTaskReq', (_, ...args: Parameters<CreateTask>) =>
+    createTaskService(...args),
+  );
 }
 
 /**

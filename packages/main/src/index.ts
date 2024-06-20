@@ -1,6 +1,6 @@
 import {app} from 'electron';
 import './security-restrictions';
-import {restoreOrCreateWindow} from '/@/mainWindow';
+import {registerIpcMain, restoreOrCreateWindow} from '/@/mainWindow';
 import {platform} from 'node:process';
 import updater from 'electron-updater';
 
@@ -38,6 +38,7 @@ app.on('activate', restoreOrCreateWindow);
  */
 app
   .whenReady()
+  .then(registerIpcMain)
   .then(restoreOrCreateWindow)
   .catch(e => console.error('Failed create window:', e));
 

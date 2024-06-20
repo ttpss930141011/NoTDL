@@ -3,6 +3,7 @@ import {DataSource} from 'typeorm';
 import {Task} from './entity/Task';
 import {app} from 'electron';
 import {join} from 'node:path';
+import {SqlDatabase} from 'langchain/sql_db';
 
 export const datasource = new DataSource({
   type: 'sqlite',
@@ -12,4 +13,8 @@ export const datasource = new DataSource({
   entities: [Task],
   migrations: [],
   subscribers: [],
+});
+
+export const db = await SqlDatabase.fromDataSourceParams({
+  appDataSource: datasource,
 });

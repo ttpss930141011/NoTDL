@@ -8,11 +8,11 @@ export class Task {
   @Column({type: 'text'})
   title: string;
 
-  @Column({type: 'int', default: 2})
+  @Column({type: 'int', default: 0})
   priority: number;
 
-  @Column({type: 'int', default: 5})
-  mental_load: number;
+  @Column({type: 'int', default: 0})
+  mental_load: number; // 0-10
 
   @Column({type: 'boolean', default: false})
   completed: boolean;
