@@ -1,5 +1,5 @@
 class Task {
-  id: number;
+  id: string;
   title: string;
   priority: number;
   mental_load: number;
