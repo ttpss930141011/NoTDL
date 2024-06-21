@@ -24,6 +24,7 @@
 
 <script setup lang="ts">
 import {ref} from 'vue';
+import {createTaskReq} from '#preload';
 
 const taskTitle = ref('');
 const taskTitleRules = ref([(v: string) => !!v || 'Task title is required']);
@@ -32,7 +33,7 @@ const emit = defineEmits(['task-added']);
 
 const handleSubmit = async () => {
   try {
-    await window.tasksApi.createTaskReq({title: taskTitle.value});
+    await createTaskReq({title: taskTitle.value});
     taskTitle.value = '';
     emit('task-added');
   } catch (error) {
