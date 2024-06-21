@@ -4,6 +4,6 @@
 
 import {sha256sum} from './nodeCrypto';
 import {versions} from './versions';
-import './tasks';
+import {getAllTasksReq, getAllTaskTitlesReq, createTaskReq} from './tasks';
 
-export {sha256sum, versions};
+export {sha256sum, versions, getAllTasksReq, getAllTaskTitlesReq, createTaskReq};
