@@ -23,3 +23,14 @@ export const createTask = async (taskData: Partial<Task>) => {
     return false;
   }
 };
+
+export const deleteTask = async (id: string) => {
+  const taskRepository = datasource.getRepository(Task);
+  try {
+    await taskRepository.delete(id);
+    return true;
+  } catch (error) {
+    console.error('Error deleting task:', error);
+    return false;
+  }
+};
