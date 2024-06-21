@@ -24,12 +24,13 @@
 <script setup lang="ts">
 import {onBeforeMount, ref} from 'vue';
 import type {Task} from '/@/types/task';
+import {getAllTasksReq} from '#preload';
 
 const todoList = ref<Task[]>([]);
 
 const fetchTaskTitles = async () => {
   try {
-    const tasksArr = await window.tasksApi.getAllTasksReq();
+    const tasksArr = await getAllTasksReq();
     console.log('tasksArr', tasksArr);
     todoList.value = tasksArr;
   } catch (error) {
