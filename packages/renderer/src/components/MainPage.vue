@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column align-center">
+  <div class="d-flex flex-column align-center rounded-xl">
     <h2>Main component</h2>
     <CreateTaskForm @task-added="handleTaskAdded" />
     <ShowAllTasks ref="showAllTasksComponent" />

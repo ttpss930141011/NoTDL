@@ -1,43 +1,75 @@
 <template>
-  <v-responsive
-    class="border rounded"
-    height="100%"
-  >
-    <v-app :theme="theme">
-      <v-app-bar
-        height="50"
-        extension-height="64"
-      >
-        <v-app-bar-nav-icon></v-app-bar-nav-icon>
-        <v-app-bar-title>{{ titleHeader }}</v-app-bar-title>
-        <v-spacer></v-spacer>
+  <v-app :theme="theme">
+    <SideBar
+      :drawer="drawer"
+      :color="color[theme].container"
+    >
+      <template #drawerTrigger>
+        <v-app-bar-nav-icon @click="drawer = !drawer" />
+      </template>
+    </SideBar>
+    <HeadBar :color="color[theme].container">
+      <template #drawerTrigger>
+        <v-app-bar-nav-icon
+          v-show="!drawer"
+          @click="drawer = !drawer"
+        />
+      </template>
+      <template #themeTrigger>
         <v-btn
           :icon="theme === 'light' ? 'mdi-weather-sunny' : 'mdi-weather-night'"
           slim
           @click="onClick"
         />
-
-        <template #extension>
-          <WeekSwiper ref="weekSwiperRef" />
-        </template>
-      </v-app-bar>
-
-      <v-main>
+      </template>
+    </HeadBar>
+    <v-main
+      :class="clsx('bg-' + color[theme].container, 'overflow-auto  hide-scrollbar')"
+      :style="{height: `${mainHeight}px`}"
+    >
+      <v-container
+        :class="clsx('rounded-xl', 'bg-' + color[theme].main)"
+        fluid
+      >
         <Main />
-      </v-main>
-    </v-app>
-  </v-responsive>
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
+
 <script setup>
 import {computed, ref} from 'vue';
 import Main from '/@/components/MainPage.vue';
-import WeekSwiper from '/@/components/WeekSwiper.vue';
+
+import clsx from 'clsx';
+import SideBar from '/@/layouts/SideBar.vue';
+import HeadBar from '/@/layouts/HeadBar.vue';
 
 const theme = ref('light');
-const weekSwiperRef = ref(null);
-const titleHeader = computed(() => weekSwiperRef.value?.headerTitle);
+const drawer = ref(true);
 
-function onClick() {
+const mainHeight = computed(() => window.innerHeight - 50 - 64);
+const color = ref({
+  light: {
+    main: 'grey-lighten-5',
+    container: 'grey-lighten-3',
+  },
+  dark: {
+    main: 'grey-darken-3',
+    container: 'grey-darken-4',
+  },
+});
+const onClick = () => {
   theme.value = theme.value === 'light' ? 'dark' : 'light';
-}
+};
 </script>
+<style scoped>
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* hidden Chrome, Safari, and Opera scroller */
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+</style>
