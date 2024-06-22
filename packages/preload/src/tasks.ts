@@ -9,3 +9,5 @@ export const getAllTaskTitlesReq = async (...args: Parameters<GetAllTaskTitles>)
 
 export const createTaskReq = async (...args: Parameters<CreateTask>) =>
   ipcRenderer.invoke('createTaskReq', ...args);
+
+export const deleteTaskReq = async (id: string) => ipcRenderer.invoke('deleteTaskReq', id);

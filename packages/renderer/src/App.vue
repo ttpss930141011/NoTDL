@@ -24,11 +24,11 @@
       </template>
     </HeadBar>
     <v-main
-      :class="clsx('bg-' + color[theme].container, 'overflow-auto  hide-scrollbar')"
+      :class="clsx('bg-' + color[theme].container)"
       :style="{height: `${mainHeight}px`}"
     >
       <v-container
-        :class="clsx('rounded-xl', 'bg-' + color[theme].main)"
+        :class="clsx('rounded-xl h-100 overflow-auto custom-scrollbar', 'bg-' + color[theme].main)"
         fluid
       >
         <Main />
@@ -63,13 +63,22 @@ const onClick = () => {
   theme.value = theme.value === 'light' ? 'dark' : 'light';
 };
 </script>
+
 <style scoped>
-.hide-scrollbar::-webkit-scrollbar {
-  display: none; /* hidden Chrome, Safari, and Opera scroller */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 1px;
 }
 
-.hide-scrollbar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background: #c2c9ea;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  background: #ededed;
 }
 </style>

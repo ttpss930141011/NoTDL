@@ -2,7 +2,12 @@ import {app, BrowserWindow, ipcMain} from 'electron';
 import {join} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {datasource} from '/@/database';
-import {createTaskService, getAllTasksService, getAllTaskTitlesService} from '/@/services';
+import {
+  createTaskService,
+  deleteTaskService,
+  getAllTasksService,
+  getAllTaskTitlesService,
+} from '/@/services';
 import type {CreateTask, GetAllTasks, GetAllTaskTitles} from '/@/types/task';
 
 /**
@@ -99,6 +104,7 @@ export function registerIpcMain() {
   ipcMain.handle('createTaskReq', (_, ...args: Parameters<CreateTask>) =>
     createTaskService(...args),
   );
+  ipcMain.handle('deleteTaskReq', (_, id: string) => deleteTaskService(id));
 }
 
 /**
