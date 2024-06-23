@@ -1,306 +1,399 @@
-> [!Important]
-> This project is mainrained by **developer from Ukraine** 🇺🇦
-> 
-> Due to the ongoing war resulting from Russia's full-scale invasion of Ukraine, I currently lack the time for the full development of this open-source project. My primary focus is on ensuring the well-being of myself and my family. I'll prioritize and review all new contributions as soon as possible.
+<div align="center">
+  <img src="./packages/main/assets/icon.png" width="219" alt="project-logo">
+</div>
+<h1 align="center">NoTDL</h1>
+<p align="center">
+    <em>Boost Your Productivity and Well-being with Intelligent Task Management</em>
+</p>
+<p align="center">
+	<img src="https://img.shields.io/github/license/ttpss930141011/NoTDL?style=default&logo=opensourceinitiative&logoColor=white&color=0080ff" alt="license">
+	<img src="https://img.shields.io/github/last-commit/ttpss930141011/NoTDL?style=default&logo=git&logoColor=white&color=0080ff" alt="last-commit">
+	<img src="https://img.shields.io/github/languages/top/ttpss930141011/NoTDL?style=default&color=0080ff" alt="repo-top-language">
+	<img src="https://img.shields.io/github/languages/count/ttpss930141011/NoTDL?style=default&color=0080ff" alt="repo-language-count">
+<p>
+<p align="center">
+    <img src="https://img.shields.io/badge/Vue 3-4FC08D.svg?style&logo=vuedotjs&logoColor=white" alt="Vue.js" />
+    <img src="https://img.shields.io/badge/Electron-47848F.svg?style&logo=electron&logoColor=white" alt="electron" />
+    <img src="https://img.shields.io/badge/Vuetify-1867C0.svg?style&logo=Vuetify&logoColor=white" alt="Vuetify" />
+    <img src="https://img.shields.io/badge/Vitest-6E9F18.svg?style&logo=Vitest&logoColor=white" alt="Vitest" />
+    <img src="https://img.shields.io/badge/TypeORM-FE0803.svg?style&logo=typeorm&logoColor=white" alt="TypeORM" />
+    <img src="https://img.shields.io/badge/SQLite-003B57.svg?style&logo=sqlite&logoColor=white" alt="TypeORM" />
+    <img src="https://img.shields.io/badge/LangChain-1C3C3C.svg?style&logo=langchain&logoColor=white" alt="LangChain" />
+    <img src="https://img.shields.io/badge/Prettier-F7B93E.svg?style&logo=Prettier&logoColor=black" alt="Prettier" />
+    <img src="https://img.shields.io/badge/ESLint-4B32C3.svg?style&logo=ESLint&logoColor=white" alt="ESLint" />
+    <img src="https://img.shields.io/badge/TypeScript-3178C6.svg?style&logo=TypeScript&logoColor=white" alt="TypeScript" />
+</p>
+
+## Overview
+
+**NoTDL** is a smart to-do list app designed to boost productivity and mental well-being. It prioritizes tasks based on
+urgency, importance, and cognitive load, helping users manage their responsibilities efficiently while maintaining a
+balanced mental state.
+
+## Infrastructure
+
+This project is structured based on
+the [Vite Electron Builder Boilerplate](https://github.com/cawa-93/vite-electron-builder), a template for secure
+electron applications, written following the latest safety requirements, recommendations, and best practices. Under the
+hood, it leverages [Vite](https://github.com/vitejs/vite/), a next-generation blazing fast bundler,
+and [electron-builder](https://github.com/electron-userland/electron-builder) for packaging.
+
+## Repository Structure
+
+```sh
+└── NoTDL/
+    ├── .github
+    │   ├── FUNDING.yml
+    │   ├── ISSUE_TEMPLATE
+    │   ├── renovate.json
+    │   └── workflows
+    ├── LICENSE
+    ├── README.md
+    ├── buildResources
+    │   ├── .gitkeep
+    │   ├── icon.icns
+    │   └── icon.png
+    ├── contributing.md
+    ├── electron-builder.yml
+    ├── package-lock.json
+    ├── package.json
+    ├── packages
+    │   ├── main
+    │   ├── preload
+    │   └── renderer
+    ├── scripts
+    │   ├── update-electron-vendors.js
+    │   └── watch.js
+    ├── tests
+    │   └── e2e.spec.ts
+    ├── types
+    │   └── env.d.ts
+    └── vitest.config.js
+```
+
+## Modules
+
+<details><summary>.</summary>
+
+| File                                                                                             | Summary                                                                                                                                                                                                                                                                                                      |
+|--------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [package-lock.json](https://github.com/ttpss930141011/NoTDL/blob/master/package-lock.json)       | This code file in the NoTDL repository is responsible for managing the build resources necessary for the project. It includes icons in different formats essential for the applications user interface. These resources play a crucial role in delivering a visually appealing and cohesive user experience. |
+| [vitest.config.js](https://github.com/ttpss930141011/NoTDL/blob/master/vitest.config.js)         | Defines global end-to-end testing configuration in the tests folder. Specifies test file search scope and adjusts timeouts to optimize the testing process. Intended for enhancing e2e testing efficiency in the Vite project.                                                                               |
+| [package.json](https://github.com/ttpss930141011/NoTDL/blob/master/package.json)                 | Defines scripts for building, testing, and maintaining Electron app components. Manages Vue, TypeScript, linting, and test configurations. Handles dependencies for development and production environments, ensuring efficient code management and reliable software releases.                              |
+| [electron-builder.yml](https://github.com/ttpss930141011/NoTDL/blob/master/electron-builder.yml) | Defines output and build resource directories, specifying files to include in packaging for Linux deb target in the NoTDL Electron app.                                                                                                                                                                      |
+
+</details>
+
+<details><summary>packages.renderer</summary>
+
+| File                                                                                                         | Summary                                                                                                                                                                                                                                                                                  |
+|--------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [vite.config.js](https://github.com/ttpss930141011/NoTDL/blob/master/packages/renderer/vite.config.js)       | Defines Vite config for the renderer package, setting environment mode, aliases, and build options. Plugins include Vue for framework integration and auto-expose for importing modules. Sharply focuses on configuration and build settings for seamless bundle generation and testing. |
+| [vuetify-plugin.ts](https://github.com/ttpss930141011/NoTDL/blob/master/packages/renderer/vuetify-plugin.ts) | Enables Vuetify integration in the renderer package. Initializes Vuetify with custom components and directives. Configures styles and icons for a consistent UI experience. Enhances rendering capabilities of the application.                                                          |
+| [tsconfig.json](https://github.com/ttpss930141011/NoTDL/blob/master/packages/renderer/tsconfig.json)         | Defines TypeScript compiler options and custom module paths for the renderer package, ensuring strict type checking and compatibility with Vue files. Excludes test files from compilation to maintain code integrity in the open-source Electron application architecture.              |
+| [.eslintrc.json](https://github.com/ttpss930141011/NoTDL/blob/master/packages/renderer/.eslintrc.json)       | Defines browser-specific ESLint rules for Vue3 in the renderer package. Enables Vue3 linting with TypeScript support and disables conflicting rules for compatibility with Prettier. Maintains code quality and consistency while adhering to Vue.js best practices.                     |
+| [index.html](https://github.com/ttpss930141011/NoTDL/blob/master/packages/renderer/index.html)               | Defines HTML template for NoTDL app with key meta tags, viewport settings, CSS link, and TypeScript module script. Displays NoTDL title and mounts app to app element in body.                                                                                                           |
+
+</details>
+
+<details><summary>packages.renderer.src</summary>
+
+| File                                                                                           | Summary                                                                                                                                                                                                                                             |
+|------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [App.vue](https://github.com/ttpss930141011/NoTDL/blob/master/packages/renderer/src/App.vue)   | Manages app theming and layout with dynamic switching.-Controls sidebar visibility based on interactions.-Updates theme between light and dark modes.-Dynamically adjusts main container height.-Utilizes custom scrollbar styling for enhanced UI. |
+| [index.ts](https://github.com/ttpss930141011/NoTDL/blob/master/packages/renderer/src/index.ts) | Enables rendering a Vue application with Vuetify plugin in the parent repositorys architecture. Uses the App.vue component to create and mount the app for user interaction.                                                                        |
+
+</details>
+
+<details><summary>packages.renderer.src.types</summary>
+
+| File                                                                                                   | Summary                                                                                                                                                                                                                 |
+|--------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [task.d.ts](https://github.com/ttpss930141011/NoTDL/blob/master/packages/renderer/src/types/task.d.ts) | Task` class encapsulates task details. `GetAllTasks` fetches all tasks, `GetAllTaskTitles` retrieves task titles, and `CreateTask` adds a new task. Contributes to the task management functionality in the repository. |
+| [week.ts](https://github.com/ttpss930141011/NoTDL/blob/master/packages/renderer/src/types/week.ts)     | Defines structures to represent a week with days and activities, aiding in calendar visualization for the NoTDL app.                                                                                                    |
+
+</details>
+
+<details><summary>packages.renderer.src.styles</summary>
+
+| File                                                                                                    | Summary                                                                                  |
+|---------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------|
+| [index.css](https://github.com/ttpss930141011/NoTDL/blob/master/packages/renderer/src/styles/index.css) | Defines global styling variables for the Swiper navigation in the renderer packages CSS. |
+
+</details>
+
+<details><summary>packages.renderer.src.layouts</summary>
+
+| File                                                                                                         | Summary                                                                                                                                                                                                                                                                    |
+|--------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [HeadBar.vue](https://github.com/ttpss930141011/NoTDL/blob/master/packages/renderer/src/layouts/HeadBar.vue) | Implements a dynamic HeadBar layout with title and slot-based triggers. Uses Vue composition API to manage a WeekSwiper components instance and dynamically update the header title based on WeekSwipers state. Complements the parent repository's frontend architecture. |
+| [SideBar.vue](https://github.com/ttpss930141011/NoTDL/blob/master/packages/renderer/src/layouts/SideBar.vue) | Implements a sidebar layout with dynamic drawer functionality and links in the Vue component. Manages drawer state and color settings using reactive properties. It enhances user navigation experience within the application interface.                                  |
+
+</details>
+
+<details><summary>packages.renderer.src.hooks</summary>
+
+| File                                                                                                     | Summary                                                                                                                                                                                                                                                |
+|----------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [useWeek.ts](https://github.com/ttpss930141011/NoTDL/blob/master/packages/renderer/src/hooks/useWeek.ts) | Enables dynamic week navigation and day selection for a calendar interface. Manages week objects with days, updates selected day properties, handles navigation to previous and next weeks, and dynamically adds new weeks when reaching array limits. |
+
+</details>
+
+<details><summary>packages.renderer.src.components</summary>
+
+| File                                                                                                                              | Summary                                                                                                                                                                                                                                                            |
+|-----------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [ReactiveHash.vue](https://github.com/ttpss930141011/NoTDL/blob/master/packages/renderer/src/components/ReactiveHash.vue)         | Enables dynamic hashing of user input in a Vue component using Nodes crypto library. Supports real-time updates to display both the original and hashed values. Critical for enhancing data security features within the renderer package of the repository.       |
+| [CreateTaskForm.vue](https://github.com/ttpss930141011/NoTDL/blob/master/packages/renderer/src/components/CreateTaskForm.vue)     | Enables task creation with form validation and submission handling. Utilizes Vue 3 composition API for managing task title input and emitting events upon task addition. Interacts with preload module to create tasks in the parent repositorys renderer package. |
+| [ShowAllTasks.vue](https://github.com/ttpss930141011/NoTDL/blob/master/packages/renderer/src/components/ShowAllTasks.vue)         | Displays and manages tasks in a timeline format. Fetches tasks on mount, allows task deletion, and updates task list accordingly. Facilitates interaction with the task list by exposing a function for fetching tasks.                                            |
+| [ElectronVersions.vue](https://github.com/ttpss930141011/NoTDL/blob/master/packages/renderer/src/components/ElectronVersions.vue) | Displays Electron versions in a table sourced from the preload package. Dynamically rendering version information for each library, enhancing visibility into the Electron versions used within the Electron application.                                          |
+| [WeekSwiper.vue](https://github.com/ttpss930141011/NoTDL/blob/master/packages/renderer/src/components/WeekSwiper.vue)             | Enables interactive week navigation and selection within a Swiper component, handling slide changes, navigation events, and styling. Integrates Vue, Swiper, and custom hooks for a smooth calendar UI experience in the repositorys frontend architecture.        |
+| [ReactiveCounter.vue](https://github.com/ttpss930141011/NoTDL/blob/master/packages/renderer/src/components/ReactiveCounter.vue)   | Enables reactive counting functionality using Vues Composition API, facilitating dynamic updates in the NoTDL repositorys renderer package.                                                                                                                        |
+| [MainPage.vue](https://github.com/ttpss930141011/NoTDL/blob/master/packages/renderer/src/components/MainPage.vue)                 | Defines main component layout with CreateTaskForm and ShowAllTasks, handling new task addition by fetching task titles asynchronously when triggered, ensuring a smooth user experience.                                                                           |
+
+</details>
+
+<details><summary>packages.renderer.types</summary>
+
+| File                                                                                                                         | Summary                                                                                                                                                                                                                                    |
+|------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [shims-vue.d.ts](https://github.com/ttpss930141011/NoTDL/blob/master/packages/renderer/types/shims-vue.d.ts)                 | Enables Vue single-file components in the renderer package. Declares a module for Vue files, defining a component with unspecified props, emits, and slots using Vue 3s DefineComponent.                                                   |
+| [global-components.d.ts](https://github.com/ttpss930141011/NoTDL/blob/master/packages/renderer/types/global-components.d.ts) | Defines global components interface for tasks API required by the parent repository. The file specifies functions to get all tasks, task titles, and create tasks, linking to task-related types for static type checking in the codebase. |
+
+</details>
+
+<details><summary>packages.preload</summary>
+
+| File                                                                                                  | Summary                                                                                                                                                                                                                                                    |
+|-------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [vite.config.js](https://github.com/ttpss930141011/NoTDL/blob/master/packages/preload/vite.config.js) | Enhance Electron app performance and maintainability.                                                                                                                                                                                                      |
+| [tsconfig.json](https://github.com/ttpss930141011/NoTDL/blob/master/packages/preload/tsconfig.json)   | Defines TypeScript compiler options for preloaded scripts, allowing synthetic default imports, enforcing strict type checking and ESNext modules. Excludes test files and specifies path mappings for source files in the parent repositorys architecture. |
+
+</details>
+
+<details><summary>packages.preload.src</summary>
+
+| File                                                                                                    | Summary                                                                                                                                                                                                                                                                |
+|---------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [tasks.ts](https://github.com/ttpss930141011/NoTDL/blob/master/packages/preload/src/tasks.ts)           | Handles IPC requests for task data using Electrons ipcRenderer, abstracting getAllTasks, getAllTaskTitles, createTask, and deleteTask operations. The file aids in communication between the preload process and the main process within the repositorys architecture. |
+| [versions.ts](https://github.com/ttpss930141011/NoTDL/blob/master/packages/preload/src/versions.ts)     | Facilitates access to Node.js process versions. Centralizes version information for efficient retrieval within the parent repositorys preload package. Enhances performance by streamlining version management across different components.                            |
+| [nodeCrypto.ts](https://github.com/ttpss930141011/NoTDL/blob/master/packages/preload/src/nodeCrypto.ts) | Computes SHA-256 hash using Node.js crypto module for data input, optimizing security and integrity checks within the preload package.                                                                                                                                 |
+| [index.ts](https://github.com/ttpss930141011/NoTDL/blob/master/packages/preload/src/index.ts)           | Provides preload module functionalities for tasks, versions, and cryptographic operations. Exposes task-related requests for fetching, creating, and deleting tasks. Implemented within the parent repositorys architecture for Electron app functionality.            |
+
+</details>
+
+<details><summary>packages.preload.src.types</summary>
+
+| File                                                                                                  | Summary                                                                                                                                                                                                                                                                            |
+|-------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [task.d.ts](https://github.com/ttpss930141011/NoTDL/blob/master/packages/preload/src/types/task.d.ts) | Defines task structure with id, title, priority, mental load, completion status, creation and update timestamps. Exports functions for retrieving all tasks, task titles, and creating tasks. Aligns with parent repositorys architecture for managing tasks in a preload package. |
+
+</details>
+
+<details><summary>packages.main</summary>
+
+| File                                                                                               | Summary                                                                                                                                                                                                         |
+|----------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [vite.config.js](https://github.com/ttpss930141011/NoTDL/blob/master/packages/main/vite.config.js) | Sets root, resolves aliases, enables SSR, targets Node.js, manages outputs, and optimizes for production.                                                                                                       |
+| [tsconfig.json](https://github.com/ttpss930141011/NoTDL/blob/master/packages/main/tsconfig.json)   | Defines TypeScript compiler options for the main package to support modern ESNext syntax and Node resolution. Ensures strict type checking and enables decorators, while excluding test files from compilation. |
+
+</details>
+
+<details><summary>packages.main.src</summary>
+
+| File                                                                                                                       | Summary                                                                                                                                                                                                                                                  |
+|----------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [security-restrictions.ts](https://github.com/ttpss930141011/NoTDL/blob/master/packages/main/src/security-restrictions.ts) | Restricts navigation to approved origins, handles permission requests, opens approved external links in a browser, and verifies webview options. Mitigates common navigation exploits and restricts window creation for enhanced security.               |
+| [mainWindow.ts](https://github.com/ttpss930141011/NoTDL/blob/master/packages/main/src/mainWindow.ts)                       | Implements main window creation, data source initialization, IPC event handling, and window restoration in the Electron app. Manages window settings, loads content, and interacts with backend services using IPC.                                      |
+| [index.ts](https://github.com/ttpss930141011/NoTDL/blob/master/packages/main/src/index.ts)                                 | Manages single instance, window behavior, IPC communication, and automatic updates. Disables hardware acceleration for resource optimization, and initializes app window on readiness. Ensures update checks and installations only in production build. |
+
+</details>
+
+<details><summary>packages.main.src.services</summary>
+
+| File                                                                                                | Summary                                                                                                                                                                                                |
+|-----------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [index.ts](https://github.com/ttpss930141011/NoTDL/blob/master/packages/main/src/services/index.ts) | Retrieves all tasks with titles, creates a task, and deletes a task. Utilizes the TaskRepo for database operations. Promotes modularity and separation of concerns within the repository architecture. |
+
+</details>
+
+<details><summary>packages.main.src.types</summary>
+
+| File                                                                                               | Summary                                                                                                                                        |
+|----------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| [task.d.ts](https://github.com/ttpss930141011/NoTDL/blob/master/packages/main/src/types/task.d.ts) | Fetching all tasks, task titles, and creating a task. This file contributes to managing tasks within the main package of the NoTDL repository. |
+
+</details>
+
+<details><summary>packages.main.src.database</summary>
+
+| File                                                                                                | Summary                                                                                                                                                                                                                     |
+|-----------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [index.ts](https://github.com/ttpss930141011/NoTDL/blob/master/packages/main/src/database/index.ts) | Enables centralized database management for NoTDL through TypeORM with SQLite, ensuring data integrity and persistence. Introduces tasks entity and sets up datasource for efficient data handling within the main package. |
+
+</details>
+
+<details><summary>packages.main.src.database.entity</summary>
+
+| File                                                                                                     | Summary                                                                                                                                                                                                                    |
+|----------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Task.ts](https://github.com/ttpss930141011/NoTDL/blob/master/packages/main/src/database/entity/Task.ts) | Defines Task entity properties for the ORM. Manages task details such as title, priority, mental load, completion status, and timestamps. Key component of the database structure for task management in the main package. |
+
+</details>
+
+<details><summary>packages.main.src.database.repository</summary>
+
+| File                                                                                                                   | Summary                                                                                                                                                                                                        |
+|------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [TasksRepo.ts](https://github.com/ttpss930141011/NoTDL/blob/master/packages/main/src/database/repository/TasksRepo.ts) | Fetching all tasks and task titles, creating a new task, and deleting a task. Utilizes the Task entity and datasource for seamless interaction with the database in the main packages repository architecture. |
+
+</details>
+
+<details><summary>types</summary>
+
+| File                                                                           | Summary                                                                                                                                                                                                                                                                |
+|--------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [env.d.ts](https://github.com/ttpss930141011/NoTDL/blob/master/types/env.d.ts) | Defines environment variables for the project. Ensures type safety and IntelliSense support. Limits exposure to only certain prefixed variables for security. Enhances code completion and type checking. Contributing to a reliable and secure codebase architecture. |
+
+</details>
+
+<details><summary>scripts</summary>
+
+| File                                                                                                                 | Summary                                                                                                                                                                                                                                                                      |
+|----------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [update-electron-vendors.js](https://github.com/ttpss930141011/NoTDL/blob/master/scripts/update-electron-vendors.js) | Generates Electron vendor data and updates browserslist configuration to align with Electrons versions. Written for NoTDL repos electron context, enriching project build processes.                                                                                         |
+| [watch.js](https://github.com/ttpss930141011/NoTDL/blob/master/scripts/watch.js)                                     | Enables automatic reloading of Electron app and web page on file changes. Utilizes Vite for watching `main` and `preload` package changes. Establishes development server for `renderer` package, ensuring seamless coordination between components in the NoTDL repository. |
+
+</details>
+
+<details><summary>.github</summary>
+
+| File                                                                                       | Summary                                                                                                                                                                                                                    |
+|--------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [renovate.json](https://github.com/ttpss930141011/NoTDL/blob/master/.github/renovate.json) | Defines Renovate configurations for Vite packages, enabling major updates from the Vite GitHub repository. Automates commits and pushes with semantic commit labels, pins versions, and disables the dependency dashboard. |
+| [FUNDING.yml](https://github.com/ttpss930141011/NoTDL/blob/master/.github/FUNDING.yml)     | Promotes funding models via platforms Buy Me a Coffee and MonoBank, supporting project sustainability.                                                                                                                     |
+
+</details>
+
+<details><summary>.github.workflows</summary>
+
+| File                                                                                                       | Summary                                                                                                                                                                                                                               |
+|------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [release.yml](https://github.com/ttpss930141011/NoTDL/blob/master/.github/workflows/release.yml)           | Automates release process using GitHub Actions. Triggers on tag creation, publishes Electron app artifacts, updates release notes, and notifies contributors. Enhances project automation and collaboration.                          |
+| [tests.yml](https://github.com/ttpss930141011/NoTDL/blob/master/.github/workflows/tests.yml)               | Verifies, executes, and reports test results for the NoTDL repository. Implements automated testing workflows for ensuring code quality and reliability within the projects architecture.                                             |
+| [ci.yml](https://github.com/ttpss930141011/NoTDL/blob/master/.github/workflows/ci.yml)                     | Enables automated continuous integration (CI) workflows for the repository. Sets up linting, testing, and building pipelines to ensure code quality and functionality. Key for maintaining project health and developer productivity. |
+| [lint.yml](https://github.com/ttpss930141011/NoTDL/blob/master/.github/workflows/lint.yml)                 | Ensures consistent code quality by running linting checks in CI workflow. Facilitates early detection of errors and enforces coding standards across the project.                                                                     |
+| [typechecking.yml](https://github.com/ttpss930141011/NoTDL/blob/master/.github/workflows/typechecking.yml) | Enables automated type checking for the repository, ensuring code integrity. Incorporates TypeScript checking across project files, aiding in the early detection and prevention of potential type-related issues in the codebase.    |
+
+</details>
+
+<details><summary>.github.ISSUE_TEMPLATE</summary>
+
+| File                                                                                                | Summary                                                                                                                                                                                             |
+|-----------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [config.yml](https://github.com/ttpss930141011/NoTDL/blob/master/.github/ISSUE_TEMPLATE/config.yml) | Facilitates GitHub issue customization by disabling blank issue creation and providing a predefined contact link for inquiries and discussions within the repositorys issue template configuration. |
+
+</details>
+
+## Getting Started
+
+### Installation
+
+<h4>From <code>source</code></h4>
+
+> 1. Clone the NoTDL repository:
 >
-> If you can, please consider [supporting Ukraine](https://stand-with-ukraine.pp.ua/) or [me personally](https://www.buymeacoffee.com/kozack). 
+> ```console
+> $ git clone https://github.com/ttpss930141011/NoTDL
+> ```
 >
-> Thank you for your understanding and support.
+> 2. Change to the project directory:
+> ```console
+> $ cd NoTDL
+> ```
+>
+> 3. Install the dependencies:
+> ```console
+> $ npm install
+> ```
+
+### Usage
+
+<h4>From <code>source</code></h4>
+
+> Run NoTDL using the command below:
+> ```console
+> $ npm run build && node dist/main.js
+> ```
+
+<h4>From <code>development</code></h4>
+
+> Run NoTDL using the command below:
+> ```console
+> $ npm run watch
+> ```
+>
+
+### Tests
+
+> Run the test suite using the command below:
+> ```console
+> $ npm test
+> ```
+
+## Contributing
+
+Contributions are welcome! Here are several ways you can contribute:
+
+- **[Report Issues](https://github.com/ttpss930141011/NoTDL/issues)**: Submit bugs found or log feature requests for
+  the `NoTDL` project.
+- **[Submit Pull Requests](https://github.com/ttpss930141011/NoTDL/blob/main/CONTRIBUTING.md)**: Review open PRs, and
+  submit your own PRs.
+- **[Join the Discussions](https://github.com/ttpss930141011/NoTDL/discussions)**: Share your insights, provide
+  feedback, or ask questions.
+
+<details>
+<summary>Contributing Guidelines</summary>
+
+1. **Fork the Repository**: Start by forking the project repository to your github account.
+2. **Clone Locally**: Clone the forked repository to your local machine using a git client.
+   ```sh
+   git clone https://github.com/ttpss930141011/NoTDL
+   ```
+3. **Create a New Branch**: Always work on a new branch, giving it a descriptive name.
+   ```sh
+   git checkout -b new-feature-x
+   ```
+4. **Make Your Changes**: Develop and test your changes locally.
+5. **Commit Your Changes**: Commit with a clear message describing your updates.
+   ```sh
+   git commit -m 'Implemented new feature x.'
+   ```
+6. **Push to github**: Push the changes to your forked repository.
+   ```sh
+   git push origin new-feature-x
+   ```
+7. **Submit a Pull Request**: Create a PR against the original project repository. Clearly describe the changes and
+   their motivations.
+8. **Review**: Once your PR is reviewed and approved, it will be merged into the main branch. Congratulations on your
+   contribution!
+
+</details>
+
+<details>
+<summary>Contributor Graph</summary>
+<br>
+<p style="text-align: center;">
+   <a href="https://github.com{/ttpss930141011/NoTDL/}graphs/contributors">
+      <img src="https://contrib.rocks/image?repo=ttpss930141011/NoTDL" alt="Contributor Graph" />
+   </a>
+</p>
+</details>
+
+## License
+
+This project is protected under the [MIT License](LICENSE). For more details, refer to
+the [LICENSE](https://choosealicense.com/licenses/) file.
+
 ---
 
-# Vite Electron Builder Boilerplate
-
-This is a template for secure electron applications. Written following the latest safety requirements, recommendations
-and best practices.
-
-Under the hood is [Vite] — A next-generation blazing fast bundler, and [electron-builder] for packaging.
-
-## Get started
-
-Follow these steps to get started with the template:
-
-1. Click the **[Use this template](https://github.com/cawa-93/vite-electron-builder/generate)** button (you must be
-   logged in) or just clone this repo.
-2. If you want to use another package manager you may need to edit [`.github/workflows`](https://github.com/search?q=npm+repo%3Acawa-93%2Fvite-electron-builder+path%3A.github%2Fworkflows&type=Code) since npm is used as default. (See also https://github.com/cawa-93/vite-electron-builder/issues/944)
-   > **Note**:
-   > This template configured to install `peerDependencies` automatically.
-
-
-That's all you need. 😉
-
-❤️ **If you like this template, don't forget to give a ⭐ or [send support](https://www.buymeacoffee.com/kozack/)!** 
-
-
-## Features
-
-### Electron [![Electron version](https://img.shields.io/github/package-json/dependency-version/cawa-93/vite-electron-builder/dev/electron?label=%20)][electron]
-
-- This template uses the latest electron version with all the latest security patches.
-- The architecture of the application is built according to the
-  security [guides](https://www.electronjs.org/docs/tutorial/security) and best practices.
-- The latest version of the [electron-builder] is used to package the application.
-
-### Vite [![Vite version](https://img.shields.io/github/package-json/dependency-version/cawa-93/vite-electron-builder/dev/vite?label=%20)][vite]
-
-- [Vite] is used to bundle all source codes. It's an extremely fast bundler, that has a vast array of amazing features.
-  You can learn more about how it is arranged in [this](https://www.youtube.com/watch?v=xXrhg26VCSc) video.
-- Vite [supports](https://vitejs.dev/guide/env-and-mode.html) reading `.env` files. You can also specify the types of
-  your environment variables in [`types/env.d.ts`](types/env.d.ts).
-- Automatic hot-reloads for the `Main` and `Renderer` processes.
-
-Vite provides many useful features, such as: `TypeScript`, `TSX/JSX`, `CSS/JSON Importing`, `CSS Modules`
-, `Web Assembly` and much more.
-
-> [See all Vite features](https://vitejs.dev/guide/features.html).
-
-### TypeScript [![TypeScript version](https://img.shields.io/github/package-json/dependency-version/cawa-93/vite-electron-builder/dev/typescript?label=%20)][typescript] (optional)
-
-- The latest version of TypeScript is used for all the source code.
-- **Vite** supports TypeScript out of the box. However, it does not support type checking.
-- Code formatting rules follow the latest TypeScript recommendations and best practices thanks
-  to [@typescript-eslint/eslint-plugin](https://www.npmjs.com/package/@typescript-eslint/eslint-plugin).
-
-> [Guide to disable typescript and remove dependencies](https://github.com/cawa-93/vite-electron-builder/discussions/339) 
-
-### Vue [![Vue version](https://img.shields.io/github/package-json/dependency-version/cawa-93/vite-electron-builder/dev/vue?label=%20&)][vue] (optional)
-
-- By default, web pages are built using [Vue]. However, you can easily change that. Or not use additional frameworks at
-  all.
-- Code formatting rules follow the latest Vue recommendations and best practices thanks to [eslint-plugin-vue].
-
-> [Find more forks 🔱 for others frameworks or setups](https://github.com/cawa-93/vite-electron-builder/discussions/categories/forks)
-
-### Continuous Integration
-
-- The configured workflow will check the types for each push and PR.
-- The configured workflow will check the code style for each push and PR.
-- **Automatic tests**
-  used [Vitest ![Vitest version](https://img.shields.io/github/package-json/dependency-version/cawa-93/vite-electron-builder/dev/vitest?label=%20&color=yellow)][vitest]
-  -- A blazing fast test framework powered by Vite.
-  - Unit tests are placed within each package and are ran separately.
-  - End-to-end tests are placed in the root [`tests`](tests) directory and use [playwright].
-
-![Workflow graph](https://user-images.githubusercontent.com/1662812/213429323-ef4bcc87-c273-4f2f-b77f-c04cf6dbc36d.png)
-
-
-### Publishing
-
-- Each time you push changes to the `main` branch, the [`release`](.github/workflows/release.yml) workflow starts, which creates a new draft release. For each next commit will be created and replaced artifacts. That way you will always have draft with latest artifacts, and the release can be published once it is ready. 
-  - Code signing supported. See [`release` workflow](.github/workflows/release.yml).
-  - **Auto-update is supported**. After the release is published, all client applications will download the new version
-  and install updates silently.
-  
-> **Note**:
-> This template **configured only for GitHub public repository**, but electron-builder also supports other update distribution servers. Find more in [electron-builder docs](https://www.electron.build/configuration/publish).
-
-## How it works
-
-The template requires a minimum amount [dependencies](package.json). Only **Vite** is used for building, nothing more.
-
-### Project Structure
-
-The structure of this template is very similar to a monorepo. The entire source code of the project is divided into three modules (packages) that are each bundled independently:
-
-- [`packages/renderer`](packages/renderer). Responsible for the contents of the application window. In fact, it is a
-  regular web application. In developer mode, you can even open it in a browser. The development and build process is
-  the same as for classic web applications. Access to low-level API electrons or Node.js is done through the _preload_
-  layer.
-- [`packages/preload`](packages/preload). Contain Electron [**preload scripts**](https://www.electronjs.org/docs/latest/tutorial/tutorial-preload). Acts as an intermediate bridge between the _renderer_ process and the API
-  exposed by electron and Node.js. Runs in an _isolated browser context_, but has direct access to the full Node.js
-  functionality.
-- [`packages/main`](packages/main)
-  Contain Electron [**main script**](https://www.electronjs.org/docs/tutorial/quick-start#create-the-main-script-file). This is
-  the main process that powers the application. It manages creating and handling the spawned BrowserWindow, setting and
-  enforcing secure permissions and request handlers. You can also configure it to do much more as per your need, such
-  as: logging, reporting statistics and health status among others.
-
-Schematically, the structure of the application and the method of communication between packages can be depicted as follows:
-```mermaid
-flowchart TB;
-
-packages/preload <-. IPC Messages .-> packages/main
-
-    subgraph packages/main["packages/main (Shared beatween all windows)"]
-    M[index.ts] --> EM[Electron Main Process Modules]
-    M --> N2[Node.js API]
-    end
-
-subgraph Window["Browser Window"]
-    subgraph packages/preload["packages/preload (Works in isolated context)"]
-    P[index.ts] --> N[Node.js API]
-    P --> ED[External dependencies]
-    P --> ER[Electron Renderer Process Modules]
-    end
-
-
-    subgraph packages/renderer
-    R[index.html] --> W[Web API]
-    R --> BD[Bundled dependencies]
-    R --> F[Web Frameworks]
-    end
-    end
-
-packages/renderer -- Call Exposed API --> P
-```
-### Build web resources
-
-The `main` and `preload` packages are built in [library mode](https://vitejs.dev/guide/build.html#library-mode) as it is
-simple javascript.
-The `renderer` package builds as a regular web app.
-
-### Compile App
-
-The next step is to package a ready to distribute Electron app for macOS, Windows and Linux with "auto update" support
-out of the box.
-
-To do this, use [electron-builder]:
-
-- Using the npm script `compile`: This script is configured to compile the application as quickly as possible. It is not
-  ready for distribution, it is compiled only for the current platform and is used for debugging.
-- Using GitHub Actions: The application is compiled for any platform and ready-to-distribute files are automatically
-  added as a draft to the GitHub releases page.
-
-### Working with dependencies
-
-Because the `renderer` works and builds like a _regular web application_, you can only use dependencies that support the
-browser or compile to a browser-friendly format.
-
-This means that in the `renderer` you are free to use any frontend dependencies such as Vue, React, lodash, axios and so
-on. However, you _CANNOT_ use any native Node.js APIs, such as, `systeminformation`. These APIs are _only_ available in
-a Node.js runtime environment and will cause your application to crash if used in the `renderer` layer. Instead, if you
-need access to Node.js runtime APIs in your frontend, export a function form the `preload` package.
-
-All dependencies that require Node.js api can be used in
-the [`preload` script](https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts).
-
-#### Expose in main world
-Here is an example. Let's say you need to read some data from the file system or database in the renderer.
-
-In the preload context, create a function that reads and returns data. To make the function announced in the preload
-available in the render, you usually need to call
-the [`electron.contextBridge.exposeInMainWorld`](https://www.electronjs.org/ru/docs/latest/api/context-bridge). However,
-this template uses the [unplugin-auto-expose](https://github.com/cawa-93/unplugin-auto-expose) plugin, so you just need
-to export the method from the preload. The `exposeInMainWorld` will be called automatically.
-
-```ts
-// preload/index.ts
-import { readFile } from 'node:fs/promises';
-
-// Encapsulate types if you use typescript
-interface UserData {
-  prop: string
-}
-
-// Encapsulate all node.js api
-// Everything you exported from preload/index.ts may be called in renderer
-export function getUserData(): Promise<UserData> {
-  return readFile('/path/to/file/in/user/filesystem.json', {encoding:'utf8'}).then(JSON.parse);
-}
-```
-
-Now you can import and call the method in renderer
-
-```ts
-// renderer/anywere/component.ts
-import { getUserData } from '#preload'
-const userData = await getUserData()
-```
-
-> Find more in [Context Isolation tutorial](https://www.electronjs.org/docs/tutorial/context-isolation#security-considerations).
-
-### Working with Electron API
-
-Although the preload has access to all of Node.js's API, it **still runs in the BrowserWindow context**, so a limited
-electron modules are available in it. Check the [electron docs](https://www.electronjs.org/ru/docs/latest/api/clipboard)
-for full list of available methods.
-
-All other electron methods can be invoked in the `main`.
-
-As a result, the architecture of interaction between all modules is as follows:
-
-```mermaid
-sequenceDiagram
-renderer->>+preload: Read data from file system
-preload->>-renderer: Data
-renderer->>preload: Maximize window
-activate preload
-preload-->>main: Invoke IPC command
-activate main
-main-->>preload: IPC response
-deactivate main
-preload->>renderer: Window maximized
-deactivate preload
-```
-
-> Find more in [Inter-Process Communication tutorial](https://www.electronjs.org/docs/latest/tutorial/ipc).
-
-### Modes and Environment Variables
-
-All environment variables are set as part of the `import.meta`, so you can access them vie the following
-way: `import.meta.env`.
-
-> **Note**:
-> If you are using TypeScript and want to get code completion you must add all the environment variables to
-the [`ImportMetaEnv` in `types/env.d.ts`](types/env.d.ts).
-
-The mode option is used to specify the value of `import.meta.env.MODE` and the corresponding environment variables files
-that need to be loaded.
-
-By default, there are two modes:
-
-- `production` is used by default
-- `development` is used by `npm run watch` script
-
-When running the build script, the environment variables are loaded from the following files in your project root:
-
-```
-.env                # loaded in all cases
-.env.local          # loaded in all cases, ignored by git
-.env.[mode]         # only loaded in specified env mode
-.env.[mode].local   # only loaded in specified env mode, ignored by git
-```
-
-> **Warning**: 
-> To prevent accidentally leaking env variables to the client, only variables prefixed with `VITE_` are exposed to your
-Vite-processed code.
-
-For example let's take the following `.env` file:
-
-```
-DB_PASSWORD=foobar
-VITE_SOME_KEY=123
-```
-
-Only `VITE_SOME_KEY` will be exposed as `import.meta.env.VITE_SOME_KEY` to your client source code, but `DB_PASSWORD`
-will not.
-
-You can change that prefix or add another. See [`envPrefix`](https://vitejs.dev/config/shared-options.html#envprefix)
-
-## Contribution
-
-See [Contributing Guide](contributing.md).
-
-
-[vite]: https://github.com/vitejs/vite/
-
-[electron]: https://github.com/electron/electron
-
-[electron-builder]: https://github.com/electron-userland/electron-builder
-
-[vue]: https://github.com/vuejs/vue-next
-
-[vue-router]: https://github.com/vuejs/vue-router-next/
-
-[typescript]: https://github.com/microsoft/TypeScript/
-
-[playwright]: https://playwright.dev
-
-[vitest]: https://vitest.dev
-
-[vue-tsc]: https://github.com/johnsoncodehk/vue-tsc
-
-[eslint-plugin-vue]: https://github.com/vuejs/eslint-plugin-vue
-
-[cawa-93-github]: https://github.com/cawa-93/
-
-[cawa-93-sponsor]: https://www.patreon.com/Kozack/
