@@ -39,7 +39,7 @@ import {getAllTasksReq, deleteTaskReq} from '#preload';
 
 const todoList = ref<Task[]>([]);
 
-const fetchTaskTitles = async () => {
+const getTaskTitles = async () => {
   try {
     const tasksArr = await getAllTasksReq();
     console.log('tasksArr', tasksArr);
@@ -51,15 +51,15 @@ const fetchTaskTitles = async () => {
 const deleteTask = async (id: string) => {
   try {
     await deleteTaskReq(id);
-    fetchTaskTitles();
+    await getTaskTitles();
   } catch (error) {
     console.error('error', error);
   }
 };
 onBeforeMount(() => {
-  fetchTaskTitles();
+  getTaskTitles();
 });
 
 // Expose the fetchTaskTitles function
-defineExpose({fetchTaskTitles});
+defineExpose({getTaskTitles});
 </script>
