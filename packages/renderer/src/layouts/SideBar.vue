@@ -11,10 +11,7 @@
         <slot name="drawerTrigger" />
         <template #append>
           <v-col cols="auto">
-            <v-btn
-              density="compact"
-              icon="mdi-plus"
-            ></v-btn>
+            <PopupCreateTaskMenu />
           </v-col>
         </template>
       </v-list-item>
@@ -36,6 +33,7 @@
 
 <script lang="ts" setup>
 import {toRefs} from 'vue';
+import PopupCreateTaskMenu from '/src/components/PopupCreateTaskMenu.vue';
 
 const props = defineProps({
   drawer: Boolean,
