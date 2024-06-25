@@ -26,7 +26,7 @@
 
 ## Overview
 
-**NoTDL** is a smart to-do list app designed to boost productivity and mental well-being. It prioritizes tasks based on
+**NoTDL** is a AI-powered to-do list app designed to boost productivity and mental well-being. It prioritizes tasks automatically based on
 urgency, importance, and cognitive load, helping users manage their responsibilities efficiently while maintaining a
 balanced mental state.
 
@@ -109,7 +109,7 @@ and [electron-builder](https://github.com/electron-userland/electron-builder) fo
 
 | File                                                                                                   | Summary                                                                                                                                                                                                                 |
 |--------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [task.d.ts](https://github.com/ttpss930141011/NoTDL/blob/master/packages/renderer/src/types/task.d.ts) | Task` class encapsulates task details. `GetAllTasks` fetches all tasks, `GetAllTaskTitles` retrieves task titles, and `CreateTask` adds a new task. Contributes to the task management functionality in the repository. |
+| [task.ts](https://github.com/ttpss930141011/NoTDL/blob/master/packages/renderer/src/types/task.d.ts) | Task` class encapsulates task details. `GetAllTasks` fetches all tasks, `GetAllTaskTitles` retrieves task titles, and `CreateTask` adds a new task. Contributes to the task management functionality in the repository. |
 | [week.ts](https://github.com/ttpss930141011/NoTDL/blob/master/packages/renderer/src/types/week.ts)     | Defines structures to represent a week with days and activities, aiding in calendar visualization for the NoTDL app.                                                                                                    |
 
 </details>
@@ -186,7 +186,7 @@ and [electron-builder](https://github.com/electron-userland/electron-builder) fo
 
 | File                                                                                                  | Summary                                                                                                                                                                                                                                                                            |
 |-------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [task.d.ts](https://github.com/ttpss930141011/NoTDL/blob/master/packages/preload/src/types/task.d.ts) | Defines task structure with id, title, priority, mental load, completion status, creation and update timestamps. Exports functions for retrieving all tasks, task titles, and creating tasks. Aligns with parent repositorys architecture for managing tasks in a preload package. |
+| [task.ts](https://github.com/ttpss930141011/NoTDL/blob/master/packages/preload/src/types/task.d.ts) | Defines task structure with id, title, priority, mental load, completion status, creation and update timestamps. Exports functions for retrieving all tasks, task titles, and creating tasks. Aligns with parent repositorys architecture for managing tasks in a preload package. |
 
 </details>
 
@@ -221,7 +221,7 @@ and [electron-builder](https://github.com/electron-userland/electron-builder) fo
 
 | File                                                                                               | Summary                                                                                                                                        |
 |----------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|
-| [task.d.ts](https://github.com/ttpss930141011/NoTDL/blob/master/packages/main/src/types/task.d.ts) | Fetching all tasks, task titles, and creating a task. This file contributes to managing tasks within the main package of the NoTDL repository. |
+| [task.ts](https://github.com/ttpss930141011/NoTDL/blob/master/packages/main/src/types/task.d.ts) | Fetching all tasks, task titles, and creating a task. This file contributes to managing tasks within the main package of the NoTDL repository. |
 
 </details>
 
