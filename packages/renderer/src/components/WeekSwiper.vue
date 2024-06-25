@@ -56,16 +56,14 @@ import type {Swiper as SwiperClass} from 'swiper/types';
 import clsx from 'clsx';
 import {Navigation} from 'swiper/modules';
 import 'swiper/css/navigation';
+import {storeToRefs} from 'pinia';
+import {useWeekStore} from '/@/store/week';
 
-const {
-  weeks,
-  headerTitle,
-  onReachStart,
-  onReachEnd,
-  onSelectedDay,
-  onNavigationPrev,
-  onNavigationNext,
-} = useWeek();
+const weekStore = useWeekStore();
+
+const {headerTitle} = storeToRefs(weekStore);
+const {weeks, onReachStart, onReachEnd, onSelectedDay, onNavigationPrev, onNavigationNext} =
+  useWeek();
 
 const swiperRef = ref<SwiperClass | null>(null);
 

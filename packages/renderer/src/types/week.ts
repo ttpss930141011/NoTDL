@@ -4,7 +4,6 @@ export interface Day {
   rawDate: dayjs.Dayjs;
   date: string;
   weekDay: string;
-  activities: string;
   isToday?: boolean;
   isSelected?: boolean;
 }

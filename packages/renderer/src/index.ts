@@ -1,7 +1,9 @@
 import {createApp} from 'vue';
-
+import {createPinia} from 'pinia';
 import vuetify from '../vuetify-plugin';
 
 import App from '/@/App.vue';
 
-createApp(App).use(vuetify).mount('#app');
+const pinia = createPinia();
+
+createApp(App).use(pinia).use(vuetify).mount('#app');
