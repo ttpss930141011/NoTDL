@@ -4,7 +4,7 @@ import {
   getAllTasks,
   deleteTask,
 } from '/@/database/repository/TasksRepo';
-import type {CreateTask, GetAllTaskTitles} from '/@/types/task';
+import type {CreateTask, GetAllTaskTitles} from '#shared/task';
 
 export const getAllTasksService = async () => {
   console.log('getAllTasks');

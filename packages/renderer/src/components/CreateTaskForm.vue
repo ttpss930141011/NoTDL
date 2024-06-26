@@ -62,9 +62,9 @@
 </template>
 <script setup lang="ts">
 import {reactive, ref, watch} from 'vue';
-import type {NewTask, Task} from '/@/types/task';
-import {TaskType} from '/@/types/task';
+import type {NewTask, Task} from '#shared/task';
 import {debounce} from 'lodash';
+import {TaskType} from '#shared/enum';
 
 const props = withDefaults(defineProps<{taskType?: NewTask['taskType']}>(), {
   taskType: TaskType.UNPLANNED,

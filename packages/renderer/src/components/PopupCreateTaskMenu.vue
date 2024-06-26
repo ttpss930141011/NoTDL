@@ -72,7 +72,7 @@
 <script setup lang="ts">
 import {ref} from 'vue';
 import AddTaskForm from '/@/components/CreateTaskForm.vue';
-import type {SuggestionTask} from '/@/types/task';
+import type {SuggestionTask} from '#shared/task';
 
 const suggestionTasks = ref<SuggestionTask[]>([
   {

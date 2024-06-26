@@ -1,5 +1,5 @@
 import {ipcRenderer} from 'electron';
-import type {CreateTask, GetAllTasks, GetAllTaskTitles} from '/@/types/task';
+import type {CreateTask, GetAllTasks, GetAllTaskTitles} from '#shared/task';
 
 export const getAllTasksReq = async (...args: Parameters<GetAllTasks>) =>
   ipcRenderer.invoke('getAllTasksReq', ...args);

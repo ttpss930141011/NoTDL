@@ -2,13 +2,13 @@ import {app, BrowserWindow, ipcMain} from 'electron';
 import {join} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {datasource} from '/@/database';
+import type {CreateTask, GetAllTasks, GetAllTaskTitles} from '#shared/task';
 import {
   createTaskService,
   deleteTaskService,
   getAllTasksService,
   getAllTaskTitlesService,
 } from '/@/services';
-import type {CreateTask, GetAllTasks, GetAllTaskTitles} from '/@/types/task';
 
 /**
  * Create a new DataSource.

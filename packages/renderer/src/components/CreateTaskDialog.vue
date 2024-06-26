@@ -41,7 +41,7 @@
 </template>
 <script setup lang="ts">
 import {ref} from 'vue';
-import {TaskType} from '/@/types/task';
+import {TaskType} from '#shared/enum';
 import CreateTaskForm from '/@/components/CreateTaskForm.vue';
 
 const dialog = ref(false);

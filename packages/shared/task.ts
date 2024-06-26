@@ -1,3 +1,5 @@
+import type {TaskType} from './enum';
+
 export interface Task {
   id: string;
   title: string;
@@ -7,11 +9,6 @@ export interface Task {
   completed: boolean;
   created_at: Date;
   updated_at: Date;
-}
-
-export enum TaskType {
-  UNPLANNED,
-  TODAY,
 }
 
 export interface NewTask {

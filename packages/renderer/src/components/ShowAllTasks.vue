@@ -34,8 +34,8 @@
 
 <script setup lang="ts">
 import {onBeforeMount, ref} from 'vue';
-import type {Task} from '/@/types/task';
 import {getAllTasksReq, deleteTaskReq} from '#preload';
+import type {Task} from '#shared/task';
 
 const todoList = ref<Task[]>([]);
 

@@ -1,9 +1,9 @@
 import {reactive, ref, watch} from 'vue';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
-import type {Day, Week} from '/@/types/week';
 import {storeToRefs} from 'pinia';
 import {useWeekStore} from '/@/store/week';
+import type {Day, Week} from '#shared/week';
 
 dayjs.extend(isoWeek);
 

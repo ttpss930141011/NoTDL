@@ -1,7 +1,7 @@
 import {defineStore} from 'pinia';
 import {computed, ref} from 'vue';
 import dayjs from 'dayjs';
-import type {Day} from '/@/types/week';
+import type {Day} from '#shared/week';
 
 export const useWeekStore = defineStore('week', () => {
   const selectedDay = ref<Day>({
