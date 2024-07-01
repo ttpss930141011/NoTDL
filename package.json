@@ -60,7 +60,7 @@
     "clsx": "2.1.1",
     "dayjs": "1.11.11",
     "electron-updater": "6.2.1",
-    "langchain": "0.2.5",
+    "langchain": "0.2.8",
     "lodash": "4.17.21",
     "reflect-metadata": "0.2.2",
     "sqlite3": "5.1.6",
