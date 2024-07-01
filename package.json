@@ -63,7 +63,7 @@
     "langchain": "0.2.5",
     "lodash": "4.17.21",
     "reflect-metadata": "0.2.2",
-    "sqlite3": "5.1.6",
+    "sqlite3": "5.1.7",
     "swiper": "11.1.4",
     "typeorm": "0.3.20",
     "vuetify": "3.6.9"
