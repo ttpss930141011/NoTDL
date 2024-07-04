@@ -33,7 +33,7 @@
         <v-divider></v-divider>
         <v-list>
           <v-list-item>
-            <AddTaskForm ref="addTaskFormRef" />
+            <CreateTaskForm ref="createTaskFormRef" />
           </v-list-item>
           <v-slide-y-transition>
             <v-list-item height="250">
@@ -60,7 +60,7 @@
             block
             color="primary"
             variant="tonal"
-            @click="handleCreateTask"
+            @click="handleCreateUnplannedTask"
           >
             Create Task
           </v-btn>
@@ -71,8 +71,12 @@
 </template>
 <script setup lang="ts">
 import {ref} from 'vue';
-import AddTaskForm from '/@/components/CreateTaskForm.vue';
+import CreateTaskForm from '/@/components/CreateTaskForm.vue';
 import type {SuggestionTask} from '#shared/task';
+import {tasks} from '#preload';
+import {useGlobalStore} from '/@/store/global';
+
+const {getUnplannedTasks} = useGlobalStore();
 
 const suggestionTasks = ref<SuggestionTask[]>([
   {
@@ -93,22 +97,41 @@ const suggestionTasks = ref<SuggestionTask[]>([
 ]);
 
 const menu = ref(false);
-const addTaskFormRef = ref<InstanceType<typeof AddTaskForm> | null>(null);
+const createTaskFormRef = ref<InstanceType<typeof CreateTaskForm> | null>(null);
 
-const handleCreateTask = () => {
-  console.log(`create task: ${addTaskFormRef.value?.newTask.title}`);
-  addTaskFormRef.value?.createTask();
-  menu.value = false;
+/**
+ * Handle creating a new task
+ * Add the new task to the task list
+ *
+ * */
+const handleCreateUnplannedTask = async () => {
+  try {
+    const newTask = createTaskFormRef?.value?.newTask;
+    if (!newTask) return;
+    const data = await tasks.createUnplannedTaskReq({
+      title: newTask.title,
+      icon: newTask.icon,
+      color: newTask.color,
+      taskType: newTask.taskType,
+      mentalLoad: newTask.mentalLoad,
+    });
+    console.log('coming from create task dialog', data);
+    await getUnplannedTasks();
+  } catch (error) {
+    console.error('error creating task', error);
+  } finally {
+    menu.value = false;
+  }
 };
 
 const handleCreateSuggestedTask = (task: SuggestionTask) => {
-  addTaskFormRef.value?.updateNewTask({title: task.title});
+  createTaskFormRef.value?.updateNewTask({title: task.title});
   console.log(`select suggested task: ${task.title}`);
 };
 
 const handleMenuClose = () => {
   menu.value = false;
-  addTaskFormRef.value?.resetNewTask();
+  createTaskFormRef.value?.resetNewTask();
 };
 </script>
 <style scoped></style>
