@@ -2,14 +2,14 @@ import {reactive, ref, watch} from 'vue';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import {storeToRefs} from 'pinia';
-import {useWeekStore} from '/@/store/week';
+import {useGlobalStore} from '/@/store/global';
 import type {Day, Week} from '#shared/week';
 
 dayjs.extend(isoWeek);
 
 export function useWeek() {
   const currentDate = ref<dayjs.Dayjs>(dayjs());
-  const weekStore = useWeekStore();
+  const weekStore = useGlobalStore();
   const {selectedDayIndex} = storeToRefs(weekStore);
   const {setSelectedDay, setSelectedDayIndex} = weekStore;
 

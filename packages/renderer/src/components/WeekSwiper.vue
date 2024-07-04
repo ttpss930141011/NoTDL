@@ -57,9 +57,9 @@ import clsx from 'clsx';
 import {Navigation} from 'swiper/modules';
 import 'swiper/css/navigation';
 import {storeToRefs} from 'pinia';
-import {useWeekStore} from '/@/store/week';
+import {useGlobalStore} from '/@/store/global';
 
-const weekStore = useWeekStore();
+const weekStore = useGlobalStore();
 
 const {headerTitle} = storeToRefs(weekStore);
 const {weeks, onReachStart, onReachEnd, onSelectedDay, onNavigationPrev, onNavigationNext} =
