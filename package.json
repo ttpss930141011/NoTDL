@@ -67,6 +67,6 @@
     "sqlite3": "5.1.6",
     "swiper": "11.1.4",
     "typeorm": "0.3.20",
-    "vuetify": "3.6.9"
+    "vuetify": "3.6.11"
   }
 }
