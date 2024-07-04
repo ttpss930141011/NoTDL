@@ -2,13 +2,29 @@ import {app, BrowserWindow, ipcMain} from 'electron';
 import {join} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {datasource} from '/@/database';
+import type {
+  CreateTask,
+  GetAllTasks,
+  GetAllTaskTitles,
+  GetSelectedDateTasks,
+  GetAllUnplannedTasks,
+  CreateSelectedDateTask,
+  UpdateTaskPriorities,
+  PreUpdateTaskPriorities,
+  UpdateTask,
+} from '#shared/task';
 import {
-  createTaskService,
+  createSelectedDateTaskService,
+  createUnplannedTaskService,
   deleteTaskService,
   getAllTasksService,
   getAllTaskTitlesService,
+  getSelectedDateTasksService,
+  getAllUnplannedTasksService,
+  updateTaskPrioritiesService,
+  preUpdateTaskPrioritiesService,
+  updateTaskService,
 } from '/@/services';
-import type {CreateTask, GetAllTasks, GetAllTaskTitles} from '/@/types/task';
 
 /**
  * Create a new DataSource.
@@ -98,13 +114,33 @@ export function registerIpcMain() {
   ipcMain.handle('getAllTasksReq', (_, ...args: Parameters<GetAllTasks>) =>
     getAllTasksService(...args),
   );
+  ipcMain.handle('getAllUnplannedTasksReq', (_, ...args: Parameters<GetAllUnplannedTasks>) =>
+    getAllUnplannedTasksService(...args),
+  );
+  ipcMain.handle('getSelectedDateTasksReq', (_, ...args: Parameters<GetSelectedDateTasks>) =>
+    getSelectedDateTasksService(...args),
+  );
   ipcMain.handle('getAllTaskTitlesReq', (_, ...args: Parameters<GetAllTaskTitles>) =>
     getAllTaskTitlesService(...args),
   );
-  ipcMain.handle('createTaskReq', (_, ...args: Parameters<CreateTask>) =>
-    createTaskService(...args),
+  ipcMain.handle(
+    'createSelectedDateTaskService',
+    (_, ...args: Parameters<CreateSelectedDateTask>) => createSelectedDateTaskService(...args),
+  );
+  ipcMain.handle('createUnplannedTaskReq', (_, ...args: Parameters<CreateTask>) =>
+    createUnplannedTaskService(...args),
+  );
+  ipcMain.handle('preUpdateTaskPrioritiesReq', (_, ...args: Parameters<PreUpdateTaskPriorities>) =>
+    preUpdateTaskPrioritiesService(...args),
+  );
+  ipcMain.handle('updateTaskPrioritiesReq', (_, ...args: Parameters<UpdateTaskPriorities>) =>
+    updateTaskPrioritiesService(...args),
   );
   ipcMain.handle('deleteTaskReq', (_, id: string) => deleteTaskService(id));
+
+  ipcMain.handle('updateTaskReq', (_, ...args: Parameters<UpdateTask>) =>
+    updateTaskService(...args),
+  );
 }
 
 /**

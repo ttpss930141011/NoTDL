@@ -1,4 +1,4 @@
-import type {GetAllTasks, CreateTask, GetAllTaskTitles} from '/@/types/task';
+import type {GetAllTasks, CreateTask, GetAllTaskTitles} from '#shared/task';
 
 export interface tasksApi {
   getAllTasksReq: GetAllTasks;

@@ -32,39 +32,39 @@
           tick-size="4"
         ></v-slider>
       </v-expansion-panel-text>
-      <v-expansion-panel-text>
-        <div class="text-caption">Task Type</div>
-        <v-btn-toggle
-          v-model="newTask.taskType"
-          density="comfortable"
-          color="primary"
-          mandatory
-          class="w-100"
-          divided
-          border
-        >
-          <v-btn
-            class="w-50"
-            icon="mdi-format-align-left"
-          >
-            Unplanned
-          </v-btn>
-          <v-btn
-            class="w-50"
-            icon="mdi-format-align-center"
-          >
-            Today
-          </v-btn>
-        </v-btn-toggle>
-      </v-expansion-panel-text>
+      <!--      <v-expansion-panel-text>-->
+      <!--        <div class="text-caption">Task Type</div>-->
+      <!--        <v-btn-toggle-->
+      <!--          v-model="newTask.taskType"-->
+      <!--          density="comfortable"-->
+      <!--          color="primary"-->
+      <!--          mandatory-->
+      <!--          class="w-100"-->
+      <!--          divided-->
+      <!--          border-->
+      <!--        >-->
+      <!--          <v-btn-->
+      <!--            class="w-50"-->
+      <!--            icon="mdi-format-align-left"-->
+      <!--          >-->
+      <!--            Unplanned-->
+      <!--          </v-btn>-->
+      <!--          <v-btn-->
+      <!--            class="w-50"-->
+      <!--            icon="mdi-format-align-center"-->
+      <!--          >-->
+      <!--            Today-->
+      <!--          </v-btn>-->
+      <!--        </v-btn-toggle>-->
+      <!--      </v-expansion-panel-text>-->
     </v-expansion-panel>
   </v-expansion-panels>
 </template>
 <script setup lang="ts">
 import {reactive, ref, watch} from 'vue';
-import type {NewTask, Task} from '/@/types/task';
-import {TaskType} from '/@/types/task';
+import type {NewTask, Task} from '#shared/task';
 import {debounce} from 'lodash';
+import {TaskType} from '#shared/enum';
 
 const props = withDefaults(defineProps<{taskType?: NewTask['taskType']}>(), {
   taskType: TaskType.UNPLANNED,
@@ -75,6 +75,7 @@ const panel = ref<string | null>(null);
 const newTask = reactive<NewTask>({
   title: '',
   icon: '',
+  color: '#EF9A9A',
   taskType: props.taskType,
   mentalLoad: 0,
 });
@@ -100,11 +101,6 @@ const updateMentalLoad = debounce(async (title: Task['title']) => {
   newTask.mentalLoad = data;
 }, 1000);
 
-const createTask = () => {
-  console.log('create task:', newTask);
-  newTask.title = '';
-};
-
 const updateNewTask = (task: Partial<NewTask>) => {
   Object.assign(newTask, task);
 };
@@ -128,7 +124,6 @@ watch(
 
 defineExpose({
   newTask,
-  createTask,
   updateNewTask,
   resetNewTask,
 });

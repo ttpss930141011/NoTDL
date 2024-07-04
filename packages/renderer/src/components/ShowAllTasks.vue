@@ -5,14 +5,14 @@
     align="center"
   >
     <v-timeline-item
-      v-for="task in todoList"
+      v-for="task in selectedDateTasks"
       :key="task.id"
       fill-dot
       min-width="500"
     >
       <v-card
         variant="text"
-        :subtitle="task.created_at.toDateString()"
+        :subtitle="task.created_at!.toDateString()"
       >
         <v-fab
           class="me-4"
@@ -22,7 +22,7 @@
           offset
           color="error"
           density="comfortable"
-          @click="deleteTask(task.id)"
+          @click="deleteTaskById(task.id)"
         ></v-fab>
         <v-card-title class="d-flex justify-space-between">
           <p>{{ task.title }}</p>
@@ -33,33 +33,15 @@
 </template>
 
 <script setup lang="ts">
-import {onBeforeMount, ref} from 'vue';
-import type {Task} from '/@/types/task';
-import {getAllTasksReq, deleteTaskReq} from '#preload';
+import {useGlobalStore} from '/@/store/global';
+import {storeToRefs} from 'pinia';
+import {onBeforeMount} from 'vue';
 
-const todoList = ref<Task[]>([]);
+const globalStore = useGlobalStore();
+const {getSelectedDateTasks, deleteTaskById} = globalStore;
+const {selectedDateTasks} = storeToRefs(globalStore);
 
-const getTaskTitles = async () => {
-  try {
-    const tasksArr = await getAllTasksReq();
-    console.log('tasksArr', tasksArr);
-    todoList.value = tasksArr;
-  } catch (error) {
-    console.error('error', error);
-  }
-};
-const deleteTask = async (id: string) => {
-  try {
-    await deleteTaskReq(id);
-    await getTaskTitles();
-  } catch (error) {
-    console.error('error', error);
-  }
-};
 onBeforeMount(() => {
-  getTaskTitles();
+  getSelectedDateTasks();
 });
-
-// Expose the fetchTaskTitles function
-defineExpose({getTaskTitles});
 </script>

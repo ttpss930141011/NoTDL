@@ -11,7 +11,8 @@
     "types": ["node"],
     "baseUrl": ".",
     "paths": {
-      "/@/*": ["./src/*"]
+      "/@/*": ["./src/*"],
+      "#shared/*": ["../shared/*"]
     },
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,

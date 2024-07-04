@@ -7,7 +7,7 @@ import {SqlDatabase} from 'langchain/sql_db';
 
 export const datasource = new DataSource({
   type: 'sqlite',
-  database: join(app.getAppPath(), 'packages/main/database/db/NoTDL.db'),
+  database: join(app.getAppPath(), 'packages/main/src/database/db/NoTDL.db'),
   synchronize: true,
   logging: false,
   entities: [Task],

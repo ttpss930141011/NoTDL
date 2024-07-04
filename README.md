@@ -109,8 +109,7 @@ and [electron-builder](https://github.com/electron-userland/electron-builder) fo
 
 | File                                                                                                   | Summary                                                                                                                                                                                                                 |
 |--------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [task.ts](https://github.com/ttpss930141011/NoTDL/blob/master/packages/renderer/src/types/task.d.ts) | Task` class encapsulates task details. `GetAllTasks` fetches all tasks, `GetAllTaskTitles` retrieves task titles, and `CreateTask` adds a new task. Contributes to the task management functionality in the repository. |
-| [week.ts](https://github.com/ttpss930141011/NoTDL/blob/master/packages/renderer/src/types/week.ts)     | Defines structures to represent a week with days and activities, aiding in calendar visualization for the NoTDL app.                                                                                                    |
+| [global.ts](https://github.com/ttpss930141011/NoTDL/blob/master/packages/renderer/src/types/week.ts)     | Defines structures to represent a week with days and activities, aiding in calendar visualization for the NoTDL app.                                                                                                    |
 
 </details>
 

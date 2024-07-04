@@ -1,22 +1,17 @@
-import {computed, reactive, ref, watch} from 'vue';
+import {reactive, ref, watch} from 'vue';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
-import type {Day, Week} from '/@/types/week';
+import {storeToRefs} from 'pinia';
+import {useGlobalStore} from '/@/store/global';
+import type {Day, Week} from '#shared/week';
 
 dayjs.extend(isoWeek);
 
 export function useWeek() {
   const currentDate = ref<dayjs.Dayjs>(dayjs());
-  const selectedDayIndex = ref<number>(currentDate.value.day());
-  const selectedDay = ref<Day>({
-    rawDate: currentDate.value,
-    date: currentDate.value.format('DD'),
-    weekDay: currentDate.value.format('ddd'),
-    activities: 'Activity 1',
-    isToday: true,
-    isSelected: true,
-  });
-  const headerTitle = computed<string>(() => selectedDay.value.rawDate.format('YYYY / MM'));
+  const weekStore = useGlobalStore();
+  const {selectedDayIndex} = storeToRefs(weekStore);
+  const {setSelectedDay, setSelectedDayIndex} = weekStore;
 
   /**
    * Generate a week object with the days of the week.
@@ -92,8 +87,8 @@ export function useWeek() {
     const indexOfDay = weeks.value[indexOfWeek].days.findIndex(d => d === day);
     if (indexOfDay === -1) return;
 
-    selectedDayIndex.value = indexOfDay;
-    selectedDay.value = day;
+    setSelectedDay(day);
+    setSelectedDayIndex(indexOfDay);
   };
 
   /**
@@ -101,7 +96,7 @@ export function useWeek() {
    * @param activeIndex
    */
   const onNavigationPrev = (activeIndex: number | undefined) => {
-    selectedDay.value = weeks.value[activeIndex!].days[selectedDayIndex.value];
+    setSelectedDay(weeks.value[activeIndex!].days[selectedDayIndex.value]);
   };
 
   /**
@@ -109,12 +104,11 @@ export function useWeek() {
    * @param activeIndex
    */
   const onNavigationNext = (activeIndex: number | undefined) => {
-    selectedDay.value = weeks.value[activeIndex!].days[selectedDayIndex.value];
+    setSelectedDay(weeks.value[activeIndex!].days[selectedDayIndex.value]);
   };
 
   return {
     weeks,
-    headerTitle,
     onReachEnd,
     onReachStart,
     onSelectedDay,

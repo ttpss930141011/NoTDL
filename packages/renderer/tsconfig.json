@@ -13,7 +13,8 @@
     "baseUrl": ".",
     "paths": {
       "#preload": ["../preload/src/index"],
-      "/@/*": ["./src/*"]
+      "/@/*": ["./src/*"],
+      "#shared/*": ["../shared/*"]
     },
     "lib": ["ESNext", "dom", "dom.iterable"],
     "esModuleInterop": true
