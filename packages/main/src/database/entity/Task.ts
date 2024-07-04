@@ -8,6 +8,12 @@ export class Task {
   @Column({type: 'text'})
   title: string;
 
+  @Column({type: 'text'})
+  icon: string;
+
+  @Column({type: 'text'})
+  color: string;
+
   @Column({type: 'int', default: 0})
   priority: number;
 
@@ -15,7 +21,16 @@ export class Task {
   mental_load: number; // 0-10
 
   @Column({type: 'boolean', default: false})
-  completed: boolean;
+  is_unplanned: boolean;
+
+  @Column({type: 'boolean', default: false})
+  is_completed: boolean;
+
+  @Column({type: 'boolean', default: false})
+  is_rest: boolean;
+
+  @CreateDateColumn({type: 'datetime', default: () => 'CURRENT_TIMESTAMP'})
+  task_date: Date;
 
   @CreateDateColumn()
   created_at: Date;
