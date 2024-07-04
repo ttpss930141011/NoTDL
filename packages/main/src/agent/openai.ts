@@ -4,7 +4,9 @@ import {ChatOpenAI} from '@langchain/openai';
 import type {Task} from '#shared/task';
 import {createRestTask, getAllSelectedDateTasks} from '/@/agent/tools';
 
+console.log('process.env.VITE_OPENAI_API_KEY', process.env.VITE_OPENAI_API_KEY);
 const model = new ChatOpenAI({
+  apiKey: process.env.VITE_OPENAI_API_KEY,
   model: 'gpt-4o',
   temperature: 0,
 });
