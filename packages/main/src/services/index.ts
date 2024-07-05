@@ -27,7 +27,10 @@ export const getAllTasksService = async () => {
   return await getAllTasks();
 };
 
-export const getAllUnplannedTasksService = async () => await getAllUnplannedTasks();
+export const getAllUnplannedTasksService = async () => {
+  const unplannedTasks = await getAllUnplannedTasks();
+  return unplannedTasks.sort((a, b) => a.priority - b.priority);
+};
 
 export const getSelectedDateTasksService: GetSelectedDateTasks = async dayString => {
   const selectedDate = dayjs(dayString);
@@ -35,9 +38,7 @@ export const getSelectedDateTasksService: GetSelectedDateTasks = async dayString
   const endOfSelectedDate = selectedDate.endOf('day').toDate();
   const tasks = await getAllTasksWithinDateRange(startOfSelectedDate, endOfSelectedDate);
   const selectedDateTasks = tasks.filter(t => !t.is_unplanned);
-  const sortedTasks = selectedDateTasks.sort((a, b) => a.priority - b.priority);
-  // console.log('getSelectedDateTasks', selectedDateTasks);
-  return sortedTasks;
+  return selectedDateTasks.sort((a, b) => a.priority - b.priority);
 };
 
 export const getAllTaskTitlesService = async (...args: Parameters<GetAllTaskTitles>) => {
@@ -48,10 +49,13 @@ export const getAllTaskTitlesService = async (...args: Parameters<GetAllTaskTitl
 export const createUnplannedTaskService = async (...args: Parameters<CreateTask>) => {
   const newTaskData = args[0] as NewTask;
   console.log('createUnplannedTask', newTaskData);
+  const existingUnplannedTasks = await getAllUnplannedTasks();
+  const newPriority = existingUnplannedTasks.length ? existingUnplannedTasks.length + 1 : 1;
   const task: Partial<Task> = {
     title: newTaskData.title,
     icon: newTaskData.icon,
     color: newTaskData.color,
+    priority: newPriority,
     is_unplanned: true,
     mental_load: newTaskData.mentalLoad,
     is_completed: false,

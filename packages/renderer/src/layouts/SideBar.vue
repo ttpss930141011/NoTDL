@@ -16,82 +16,121 @@
         </template>
       </v-list-item>
     </v-list>
-    <v-slide-y-transition
-      tag="v-list"
-      group
-      class="d-flex flex-column flex-1-0 overflow-auto h-50"
-    >
-      <v-list-subheader
-        v-show="onGoingTasks.length > 0"
-        key="unplanned-tasks-subheader"
-        class="mx-3"
-      >
-        Unplanned Tasks
-      </v-list-subheader>
-
-      <v-list-item
-        v-for="task in onGoingTasks"
-        :key="task.id"
-      >
-        <v-card prepend-icon="mdi-check">
-          <template #title>
-            <div
-              :class="clsx('text-body-2 cursor-pointer', {'is-completed': task.is_completed})"
-              @click="() => editUnplannedTaskDialogRef?.openDialog(task)"
-            >
-              {{ task.title }}
-            </div>
-          </template>
-          <template #append>
-            <v-btn
-              icon="mdi-delete"
-              color="red"
-              size="small"
-              density="compact"
-              variant="text"
-              @click="() => handleDeleteTask(task)"
-            >
-            </v-btn>
-          </template>
-        </v-card>
-      </v-list-item>
-      <v-list-subheader
-        v-show="completedTasks.length > 0"
-        key="completed-tasks-subheader"
-        class="mx-3"
-      >
-        Completed
-      </v-list-subheader>
-      <v-list-item
-        v-for="task in completedTasks"
-        :key="task.id"
-      >
-        <v-card
-          prepend-icon="mdi-check"
-          @click="() => editUnplannedTaskDialogRef?.openDialog(task)"
+    <div class="d-flex flex-column flex-1-0 overflow-auto h-50">
+      <v-list>
+        <v-list-subheader
+          v-show="onGoingTasks.length > 0"
+          key="unplanned-tasks-subheader"
+          class="mx-3"
         >
-          <template #title>
-            <div
-              :class="clsx('text-body-2 cursor-pointer', {'is-completed': task.is_completed})"
-              @click="() => editUnplannedTaskDialogRef?.openDialog(task)"
+          Unplanned Tasks
+        </v-list-subheader>
+
+        <VueDraggable
+          v-model="onGoingTasks"
+          class="overflow-auto hide-scroller"
+          :animation="200"
+          group="people"
+          @update="onGoingTasksUpdate"
+          @add="onGoingTasksAdd"
+        >
+          <TransitionGroup
+            type="transition"
+            name="tasks"
+          >
+            <v-list-item
+              v-for="task in onGoingTasks"
+              :key="task.id"
             >
-              {{ task.title }}
-            </div>
-          </template>
-          <template #append>
-            <v-btn
-              icon="mdi-delete"
-              color="red"
-              size="small"
-              density="compact"
-              variant="text"
-              @click="() => handleDeleteTask(task)"
+              <v-card prepend-icon="mdi-check">
+                <template #title>
+                  <div
+                    :class="clsx('text-body-2 cursor-pointer', {'is-completed': task.is_completed})"
+                    @click="() => editUnplannedTaskDialogRef?.openDialog(task)"
+                  >
+                    {{ task.title }}
+                  </div>
+                </template>
+                <template #append>
+                  <v-btn
+                    icon="mdi-delete"
+                    color="red"
+                    size="small"
+                    density="compact"
+                    variant="text"
+                    @click="() => handleDeleteTask(task)"
+                  >
+                  </v-btn>
+                </template>
+              </v-card>
+            </v-list-item>
+          </TransitionGroup>
+        </VueDraggable>
+      </v-list>
+      <v-list>
+        <v-list-subheader
+          key="completed-tasks-subheader"
+          class="mx-3"
+        >
+          Completed
+        </v-list-subheader>
+        <v-list-item
+          v-show="completedTasks.length === 0"
+          key="no-completed-tasks"
+        >
+          <v-card
+            class="text-center"
+            prepend-icon="mdi-inbox-outline"
+            :color="color"
+          >
+            <template #title>
+              <span class="text-body-2">No completed tasks</span>
+            </template>
+          </v-card>
+        </v-list-item>
+        <VueDraggable
+          v-model="completedTasks"
+          class="overflow-auto hide-scroller"
+          :animation="200"
+          ghost-class="ghost"
+          group="people"
+          @update="onCompletedTasksUpdate"
+          @add="onCompletedTasksAdd"
+        >
+          <TransitionGroup
+            type="transition"
+            name="tasks"
+          >
+            <v-list-item
+              v-for="task in completedTasks"
+              :key="task.id"
             >
-            </v-btn>
-          </template>
-        </v-card>
-      </v-list-item>
-    </v-slide-y-transition>
+              <v-card prepend-icon="mdi-check">
+                <template #title>
+                  <div
+                    :class="clsx('text-body-2 cursor-pointer', {'is-completed': task.is_completed})"
+                    @click="() => editUnplannedTaskDialogRef?.openDialog(task)"
+                  >
+                    {{ task.title }}
+                  </div>
+                </template>
+                <template #append>
+                  <v-btn
+                    icon="mdi-delete"
+                    color="red"
+                    size="small"
+                    density="compact"
+                    variant="text"
+                    @click="() => handleDeleteTask(task)"
+                  >
+                  </v-btn>
+                </template>
+              </v-card>
+            </v-list-item>
+          </TransitionGroup>
+        </VueDraggable>
+      </v-list>
+    </div>
 
     <v-divider></v-divider>
     <v-list>
@@ -127,13 +166,15 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, onBeforeMount, ref, toRefs} from 'vue';
+import {onBeforeMount, ref, toRefs, watch} from 'vue';
 import PopupCreateTaskMenu from '/src/components/PopupCreateTaskMenu.vue';
 import {useGlobalStore} from '/@/store/global';
 import {storeToRefs} from 'pinia';
 import EditUnplannedTaskDialog from '/@/components/EditUnplannedTaskDialog.vue';
 import clsx from 'clsx';
 import type {Task} from '#shared/task';
+import type {SortableEvent} from 'vue-draggable-plus';
+import {VueDraggable} from 'vue-draggable-plus';
 
 const props = defineProps({
   drawer: Boolean,
@@ -144,30 +185,47 @@ const {drawer} = toRefs(props);
 const editUnplannedTaskDialogRef = ref<InstanceType<typeof EditUnplannedTaskDialog> | null>(null);
 
 const globalStore = useGlobalStore();
-const {getUnplannedTasks, /*updateTask, */ deleteTaskById} = globalStore;
+const {getUnplannedTasks, updateTask, updateTaskPriorities, deleteTaskById} = globalStore;
 const {unplannedTasks} = storeToRefs(globalStore);
 
-const completedTasks = computed(() => unplannedTasks.value.filter(task => task.is_completed));
+const completedTasks = ref<Task[]>([]);
+const onGoingTasks = ref<Task[]>([]);
 
-const onGoingTasks = computed(() => unplannedTasks.value.filter(task => !task.is_completed));
+watch(unplannedTasks, () => {
+  completedTasks.value = unplannedTasks.value.filter(task => task.is_completed);
+  onGoingTasks.value = unplannedTasks.value.filter(task => !task.is_completed);
+});
 
-// const handleCompleteTask = async (task: Task | null) => {
-//   if (!task) return;
-//   try {
-//     await updateTask({...toRaw(task), is_completed: true});
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
-//
-// const handleIncompleteTask = async (task: Task | null) => {
-//   if (!task) return;
-//   try {
-//     await updateTask({...toRaw(task), is_completed: false});
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
+const onGoingTasksUpdate = async () => {
+  const newPrioritiesTasks = onGoingTasks.value.map((task, index) => ({
+    ...task,
+    priority: index + 1,
+  }));
+  await updateTaskPriorities(newPrioritiesTasks);
+};
+
+const onGoingTasksAdd = async (event: SortableEvent) => {
+  if (!event.newIndex && event.newIndex !== 0) return;
+  const newTask = onGoingTasks.value[event.newIndex];
+  await updateTask({...newTask, is_completed: false});
+  console.log('onGoingTasksAdd:', newTask);
+};
+
+const onCompletedTasksUpdate = async () => {
+  const newPrioritiesTasks = completedTasks.value.map((task, index) => ({
+    ...task,
+    priority: index + 1,
+  }));
+  await updateTaskPriorities(newPrioritiesTasks);
+};
+
+const onCompletedTasksAdd = async (event: SortableEvent) => {
+  console.log('event:', event);
+  if (!event.newIndex && event.newIndex !== 0) return;
+  const newTask = completedTasks.value[event.newIndex];
+  await updateTask({...newTask, is_completed: true});
+  console.log('onCompletedTasksAdd:', newTask);
+};
 
 const handleDeleteTask = async (task: Task | null) => {
   if (!task) return;
@@ -192,5 +250,23 @@ onBeforeMount(() => {
 .is-completed {
   text-decoration: line-through;
   color: #9e9e9e;
+}
+
+.hide-scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.tasks-enter-active {
+  transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+.tasks-enter-from,
+.tasks-leave-to {
+  opacity: 0;
+  transform: scaleY(0.01);
+}
+
+.tasks-leave-active {
+  position: absolute;
 }
 </style>

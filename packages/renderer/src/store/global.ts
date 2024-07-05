@@ -49,12 +49,10 @@ export const useGlobalStore = defineStore('global', () => {
 
   const updateTaskPriorities = async (tasks: Task[]) => {
     await tasksReq.updateTaskPrioritiesReq(tasks);
-    await getSelectedDateTasks();
-    reorderTasks.value = [];
+    await Promise.all([getUnplannedTasks(), getSelectedDateTasks()]);
   };
 
   const updateTask = async (task: Task) => {
-    console.log('updateTask', task);
     await tasksReq.updateTaskReq(task);
     await Promise.all([getUnplannedTasks(), getSelectedDateTasks()]);
   };
