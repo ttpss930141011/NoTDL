@@ -33,7 +33,7 @@
         <v-divider></v-divider>
         <v-list>
           <v-list-item>
-            <CreateTaskForm ref="createTaskFormRef" />
+            <TaskInputForm ref="taskInputFormRef" />
           </v-list-item>
           <v-slide-y-transition>
             <v-list-item height="250">
@@ -71,10 +71,11 @@
 </template>
 <script setup lang="ts">
 import {ref} from 'vue';
-import CreateTaskForm from '/@/components/CreateTaskForm.vue';
+import TaskInputForm from '/@/components/TaskInputForm.vue';
 import type {SuggestionTask} from '#shared/task';
 import {tasks} from '#preload';
 import {useGlobalStore} from '/@/store/global';
+import {TaskType} from '#shared/enum';
 
 const {getUnplannedTasks} = useGlobalStore();
 
@@ -83,21 +84,24 @@ const suggestionTasks = ref<SuggestionTask[]>([
     id: '1',
     title: 'Reply email',
     icon: 'mdi-email',
+    mental_load: 3,
   },
   {
     id: '2',
     title: 'Workout',
     icon: 'mdi-dumbbell',
+    mental_load: 5,
   },
   {
     id: '3',
     title: 'Buy groceries',
     icon: 'mdi-cart',
+    mental_load: 2,
   },
 ]);
 
 const menu = ref(false);
-const createTaskFormRef = ref<InstanceType<typeof CreateTaskForm> | null>(null);
+const taskInputFormRef = ref<InstanceType<typeof TaskInputForm> | null>(null);
 
 /**
  * Handle creating a new task
@@ -106,14 +110,14 @@ const createTaskFormRef = ref<InstanceType<typeof CreateTaskForm> | null>(null);
  * */
 const handleCreateUnplannedTask = async () => {
   try {
-    const newTask = createTaskFormRef?.value?.newTask;
+    const newTask = taskInputFormRef?.value?.formProps.task;
     if (!newTask) return;
     const data = await tasks.createUnplannedTaskReq({
-      title: newTask.title,
-      icon: newTask.icon,
-      color: newTask.color,
-      taskType: newTask.taskType,
-      mentalLoad: newTask.mentalLoad,
+      title: newTask.title || 'New Task',
+      icon: newTask.icon || 'mdi-calendar-check',
+      color: newTask.color || '#ffa2a2',
+      taskType: TaskType.UNPLANNED,
+      mentalLoad: newTask.mental_load || 0,
     });
     console.log('coming from create task dialog', data);
     await getUnplannedTasks();
@@ -125,13 +129,21 @@ const handleCreateUnplannedTask = async () => {
 };
 
 const handleCreateSuggestedTask = (task: SuggestionTask) => {
-  createTaskFormRef.value?.updateNewTask({title: task.title});
+  taskInputFormRef.value?.acceptParams({
+    task: {
+      title: task.title,
+      icon: task.icon,
+      mental_load: task.mental_load,
+    },
+  });
   console.log(`select suggested task: ${task.title}`);
 };
 
 const handleMenuClose = () => {
   menu.value = false;
-  createTaskFormRef.value?.resetNewTask();
+  taskInputFormRef.value?.acceptParams({
+    task: {},
+  });
 };
 </script>
 <style scoped></style>

@@ -33,12 +33,25 @@
         v-for="task in onGoingTasks"
         :key="task.id"
       >
-        <v-card
-          prepend-icon="mdi-check"
-          @click="() => editUnplannedTaskDialogRef?.openDialog(task)"
-        >
+        <v-card prepend-icon="mdi-check">
           <template #title>
-            <span class="text-body-2">{{ task.title }}</span>
+            <div
+              :class="clsx('text-body-2 cursor-pointer', {'is-completed': task.is_completed})"
+              @click="() => editUnplannedTaskDialogRef?.openDialog(task)"
+            >
+              {{ task.title }}
+            </div>
+          </template>
+          <template #append>
+            <v-btn
+              icon="mdi-delete"
+              color="red"
+              size="small"
+              density="compact"
+              variant="text"
+              @click="() => handleDeleteTask(task)"
+            >
+            </v-btn>
           </template>
         </v-card>
       </v-list-item>
@@ -58,9 +71,23 @@
           @click="() => editUnplannedTaskDialogRef?.openDialog(task)"
         >
           <template #title>
-            <span :class="clsx('text-body-2', {'is-completed': task.is_completed})">{{
-              task.title
-            }}</span>
+            <div
+              :class="clsx('text-body-2 cursor-pointer', {'is-completed': task.is_completed})"
+              @click="() => editUnplannedTaskDialogRef?.openDialog(task)"
+            >
+              {{ task.title }}
+            </div>
+          </template>
+          <template #append>
+            <v-btn
+              icon="mdi-delete"
+              color="red"
+              size="small"
+              density="compact"
+              variant="text"
+              @click="() => handleDeleteTask(task)"
+            >
+            </v-btn>
           </template>
         </v-card>
       </v-list-item>
@@ -106,6 +133,7 @@ import {useGlobalStore} from '/@/store/global';
 import {storeToRefs} from 'pinia';
 import EditUnplannedTaskDialog from '/@/components/EditUnplannedTaskDialog.vue';
 import clsx from 'clsx';
+import type {Task} from '#shared/task';
 
 const props = defineProps({
   drawer: Boolean,
@@ -116,12 +144,39 @@ const {drawer} = toRefs(props);
 const editUnplannedTaskDialogRef = ref<InstanceType<typeof EditUnplannedTaskDialog> | null>(null);
 
 const globalStore = useGlobalStore();
-const {getUnplannedTasks} = globalStore;
+const {getUnplannedTasks, /*updateTask, */ deleteTaskById} = globalStore;
 const {unplannedTasks} = storeToRefs(globalStore);
 
 const completedTasks = computed(() => unplannedTasks.value.filter(task => task.is_completed));
 
 const onGoingTasks = computed(() => unplannedTasks.value.filter(task => !task.is_completed));
+
+// const handleCompleteTask = async (task: Task | null) => {
+//   if (!task) return;
+//   try {
+//     await updateTask({...toRaw(task), is_completed: true});
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
+//
+// const handleIncompleteTask = async (task: Task | null) => {
+//   if (!task) return;
+//   try {
+//     await updateTask({...toRaw(task), is_completed: false});
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
+
+const handleDeleteTask = async (task: Task | null) => {
+  if (!task) return;
+  try {
+    await deleteTaskById(task.id);
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 onBeforeMount(() => {
   getUnplannedTasks();

@@ -6,7 +6,7 @@
     <v-card
       min-width="400"
       :prepend-icon="task?.icon"
-      :title="task?.title"
+      title="Edit Task"
     >
       <template #append>
         <v-btn
@@ -20,82 +20,45 @@
 
       <v-divider></v-divider>
       <v-card-item>
-        <v-container>
-          <v-row
-            align="center"
-            justify="center"
-          >
-            <v-col cols="auto">
-              <v-btn
-                prepend-icon="mdi-check"
-                color="success"
-                size="large"
-                @click="handleCompleteTask"
-              >
-                Complete
-              </v-btn>
-            </v-col>
-            <v-col cols="auto">
-              <v-btn
-                prepend-icon="mdi-pencil"
-                color="info"
-                size="large"
-              >
-                Edit
-              </v-btn>
-            </v-col>
-            <v-col cols="auto">
-              <v-btn
-                prepend-icon="mdi-delete"
-                color="red"
-                size="large"
-                @click="handleDeleteTask"
-              >
-                Delete
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-container>
+        <TaskInputForm ref="taskInputFormRef" />
       </v-card-item>
+      <v-divider></v-divider>
+      <v-card-actions>
+        <v-btn
+          block
+          color="primary"
+          @click="handleUpdateTask"
+        >
+          Update Task
+        </v-btn>
+      </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 <script setup lang="ts">
-import {useGlobalStore} from '/@/store/global';
-import {ref, toRaw} from 'vue';
+import {nextTick, ref, toRaw} from 'vue';
 import type {Task} from '#shared/task';
-
-const globalStore = useGlobalStore();
-const {updateTask, deleteTaskById} = globalStore;
+import TaskInputForm from '/@/components/TaskInputForm.vue';
+import {tasks} from '#preload';
 
 const dialog = ref(false);
 const task = ref<Task | null>(null);
+const taskInputFormRef = ref<InstanceType<typeof TaskInputForm> | null>(null);
 
-const openDialog = (selectedTask: Task) => {
+const openDialog = async (selectedTask: Task) => {
   dialog.value = true;
   task.value = selectedTask;
-};
-const handleCompleteTask = async () => {
-  if (!task.value) return;
-  try {
-    await updateTask({...toRaw(task.value), is_completed: true});
-  } catch (error) {
-    console.error(error);
-  } finally {
-    dialog.value = false;
-  }
+  await nextTick();
+  taskInputFormRef.value?.acceptParams({task: selectedTask});
 };
 
-const handleDeleteTask = async () => {
-  if (!task.value) return;
-  try {
-    await deleteTaskById(task.value.id);
-  } catch (error) {
-    console.error(error);
-  } finally {
-    dialog.value = false;
-  }
+const handleUpdateTask = async () => {
+  const updatedTask = taskInputFormRef?.value?.formProps.task as Task;
+  if (!updatedTask) return;
+  await tasks.updateTaskReq(toRaw(updatedTask));
+  dialog.value = false;
 };
+
 defineExpose({openDialog});
 </script>
 

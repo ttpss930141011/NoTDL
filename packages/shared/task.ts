@@ -26,6 +26,7 @@ export interface SuggestionTask {
   id: string;
   title: string;
   icon: string;
+  mental_load: number;
 }
 
 export type GetAllTasks = () => Promise<Task[]>;
