@@ -27,12 +27,20 @@
       :class="clsx('bg-' + color[theme].container)"
       :style="{height: `${mainHeight}px`}"
     >
-      <v-container
-        :class="clsx('rounded-xl h-100 overflow-auto custom-scrollbar', 'bg-' + color[theme].main)"
-        fluid
+      <v-sheet
+        height="100%"
+        width="100%"
+        class="py-2 px-2"
+        :class="clsx('bg-' + color[theme].container)"
       >
-        <Main />
-      </v-container>
+        <v-sheet
+          :elevation="4"
+          rounded="xl"
+          :class="clsx('overflow-auto custom-scrollbar container')"
+        >
+          <Main />
+        </v-sheet>
+      </v-sheet>
     </v-main>
   </v-app>
 </template>
@@ -80,5 +88,28 @@ const onClick = () => {
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   background: #ededed;
+}
+
+.container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container::before {
+  content: '';
+  background-image: url('../assets/bg.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0.4;
 }
 </style>
