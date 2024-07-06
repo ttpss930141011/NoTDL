@@ -1,30 +1,28 @@
 <template>
-  <div class="text-center pa-4">
-    <v-dialog
-      v-model="dialog"
-      width="auto"
+  <v-dialog
+    v-model="dialog"
+    width="auto"
+  >
+    <v-card
+      min-width="600"
+      prepend-icon="mdi-calendar-check"
+      title="New Task"
     >
-      <v-card
-        min-width="600"
-        prepend-icon="mdi-calendar-check"
-        title="New Task"
-      >
-        <v-card-text>
-          <TaskInputForm ref="taskInputFormRef" />
-        </v-card-text>
-        <template #actions>
-          <v-btn
-            block
-            variant="tonal"
-            color="primary"
-            class="ms-auto"
-            text="Create Task"
-            @click="handleCreateTask"
-          ></v-btn>
-        </template>
-      </v-card>
-    </v-dialog>
-  </div>
+      <v-card-text>
+        <TaskInputForm ref="taskInputFormRef" />
+      </v-card-text>
+      <template #actions>
+        <v-btn
+          block
+          variant="tonal"
+          color="primary"
+          class="ms-auto"
+          text="Create Task"
+          @click="handleCreateTask"
+        ></v-btn>
+      </template>
+    </v-card>
+  </v-dialog>
   <v-fab
     color="success"
     icon="mdi-plus"
