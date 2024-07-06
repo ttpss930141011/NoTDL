@@ -42,27 +42,34 @@
               v-for="task in onGoingTasks"
               :key="task.id"
             >
-              <v-card prepend-icon="mdi-check">
-                <template #title>
-                  <div
-                    :class="clsx('text-body-2 cursor-pointer', {'is-completed': task.is_completed})"
-                    @click="() => editUnplannedTaskDialogRef?.openDialog(task)"
-                  >
-                    {{ task.title }}
-                  </div>
-                </template>
-                <template #append>
-                  <v-btn
-                    icon="mdi-delete"
-                    color="red"
-                    size="small"
-                    density="compact"
-                    variant="text"
-                    @click="() => handleDeleteTask(task)"
-                  >
-                  </v-btn>
-                </template>
-              </v-card>
+              <div class="bg">
+                <v-card
+                  prepend-icon="mdi-check"
+                  class="task-card"
+                >
+                  <template #title>
+                    <div
+                      :class="
+                        clsx('text-body-2 cursor-pointer', {'is-completed': task.is_completed})
+                      "
+                      @click="() => editUnplannedTaskDialogRef?.openDialog(task)"
+                    >
+                      {{ task.title }}
+                    </div>
+                  </template>
+                  <template #append>
+                    <v-btn
+                      icon="mdi-delete-outline"
+                      color="red"
+                      size="small"
+                      density="compact"
+                      variant="text"
+                      @click="() => handleDeleteTask(task)"
+                    >
+                    </v-btn>
+                  </template>
+                </v-card>
+              </div>
             </v-list-item>
           </TransitionGroup>
         </VueDraggable>
@@ -105,27 +112,34 @@
               v-for="task in completedTasks"
               :key="task.id"
             >
-              <v-card prepend-icon="mdi-check">
-                <template #title>
-                  <div
-                    :class="clsx('text-body-2 cursor-pointer', {'is-completed': task.is_completed})"
-                    @click="() => editUnplannedTaskDialogRef?.openDialog(task)"
-                  >
-                    {{ task.title }}
-                  </div>
-                </template>
-                <template #append>
-                  <v-btn
-                    icon="mdi-delete"
-                    color="red"
-                    size="small"
-                    density="compact"
-                    variant="text"
-                    @click="() => handleDeleteTask(task)"
-                  >
-                  </v-btn>
-                </template>
-              </v-card>
+              <div class="bg">
+                <v-card
+                  prepend-icon="mdi-check"
+                  class="task-card"
+                >
+                  <template #title>
+                    <div
+                      :class="
+                        clsx('text-body-2 cursor-pointer', {'is-completed': task.is_completed})
+                      "
+                      @click="() => editUnplannedTaskDialogRef?.openDialog(task)"
+                    >
+                      {{ task.title }}
+                    </div>
+                  </template>
+                  <template #append>
+                    <v-btn
+                      icon="mdi-delete-outline"
+                      color="red"
+                      size="small"
+                      density="compact"
+                      variant="text"
+                      @click="() => handleDeleteTask(task)"
+                    >
+                    </v-btn>
+                  </template>
+                </v-card>
+              </div>
             </v-list-item>
           </TransitionGroup>
         </VueDraggable>
@@ -268,5 +282,32 @@ onBeforeMount(() => {
 
 .tasks-leave-active {
   position: absolute;
+}
+
+.bg {
+  padding-top: 20px;
+}
+
+.task-card {
+  position: relative;
+  overflow: visible;
+  height: 65px;
+  justify-content: center;
+  align-content: center;
+  border: #dec0a8 3px solid;
+  border-radius: 20px;
+}
+
+.task-card::before {
+  content: '';
+  position: absolute;
+  top: -117px;
+  width: 256px;
+  height: 220px;
+  background-image: url('../assets/card-border.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: -1;
+  opacity: 0.4;
 }
 </style>
