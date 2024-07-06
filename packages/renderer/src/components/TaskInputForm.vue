@@ -27,7 +27,12 @@
           v-model="formProps.task.mental_load"
           :max="10"
           :ticks="tickLabels"
+          class="mx-2"
+          color="primary"
+          density="compact"
           show-ticks="always"
+          thumb-size="16"
+          hide-details
           step="1"
           tick-size="4"
         ></v-slider>
