@@ -2,13 +2,13 @@
   <v-app :theme="theme">
     <SideBar
       :drawer="drawer"
-      :color="color[theme].container"
+      :color="color[theme].base"
     >
       <template #drawerTrigger>
         <v-app-bar-nav-icon @click="drawer = !drawer" />
       </template>
     </SideBar>
-    <HeadBar :color="color[theme].container">
+    <HeadBar :color="color[theme].base">
       <template #drawerTrigger>
         <v-app-bar-nav-icon
           v-show="!drawer"
@@ -24,14 +24,14 @@
       </template>
     </HeadBar>
     <v-main
-      :class="clsx('bg-' + color[theme].container)"
+      :class="clsx('bg-' + color[theme].base)"
       :style="{height: `${mainHeight}px`}"
     >
       <v-sheet
         height="100%"
         width="100%"
         class="py-2 px-2"
-        :class="clsx('bg-' + color[theme].container)"
+        :class="clsx('bg-' + color[theme].base)"
       >
         <v-sheet
           :elevation="4"
@@ -60,11 +60,11 @@ const mainHeight = computed(() => window.innerHeight - 50 - 64);
 const color = ref({
   light: {
     main: 'grey-lighten-5',
-    container: 'grey-lighten-3',
+    base: 'grey-lighten-3',
   },
   dark: {
     main: 'grey-darken-3',
-    container: 'grey-darken-4',
+    base: 'grey-darken-4',
   },
 });
 const onClick = () => {
