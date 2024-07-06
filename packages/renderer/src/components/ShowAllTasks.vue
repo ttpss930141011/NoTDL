@@ -6,7 +6,7 @@
     width="50%"
     rounded="xl"
     :style="{zIndex: 1}"
-    class="overflow-auto custom-scrollbar"
+    class="overflow-auto custom-scrollbar flex-1-0"
   >
     <v-card
       class="h-100"
