@@ -1,18 +1,38 @@
 <!-- ShowAllTasks.vue -->
 <template>
-  <v-timeline
-    side="end"
-    align="center"
+  <v-sheet
+    :elevation="8"
+    height="100%"
+    width="50%"
+    rounded="xl"
+    :style="{zIndex: 1}"
+    class="overflow-auto custom-scrollbar"
   >
-    <v-timeline-item
-      v-for="task in selectedDateTasks"
-      :key="task.id"
-      fill-dot
-      min-width="500"
+    <v-card
+      class="h-100"
+      prepend-icon="mdi-calendar"
+      rounded="xl"
     >
+      <template #title>
+        <h3>Tasks</h3>
+      </template>
+      <template #append>
+        <v-btn
+          icon="mdi-refresh"
+          variant="tonal"
+          density="comfortable"
+          @click="() => getSelectedDateTasks()"
+        >
+        </v-btn>
+      </template>
       <v-card
+        v-for="task in selectedDateTasks"
+        :key="task.id"
         variant="text"
         :subtitle="task.created_at!.toDateString()"
+        border="md"
+        rounded="xl"
+        class="ma-3"
       >
         <v-fab
           class="me-4"
@@ -28,8 +48,8 @@
           <p>{{ task.title }}</p>
         </v-card-title>
       </v-card>
-    </v-timeline-item>
-  </v-timeline>
+    </v-card>
+  </v-sheet>
 </template>
 
 <script setup lang="ts">
