@@ -29,14 +29,16 @@ export const useGlobalStore = defineStore('global', () => {
 
   const setSelectedDayIndex = (index: number) => (selectedDayIndex.value = index);
   const getUnplannedTasks = async () => {
-    const data = await tasksReq.getAllUnplannedTasksReq();
-    console.log('getUnplannedTasks', data);
-    unplannedTasks.value = data;
+    unplannedTasks.value = await tasksReq.getAllUnplannedTasksReq();
   };
 
   const getSelectedDateTasks = async (day: Dayjs | string = selectedDayString.value) => {
     const dayString = typeof day === 'string' ? day : day.format('YYYY-MM-DD');
     selectedDateTasks.value = await tasksReq.getSelectedDateTasksReq(dayString);
+  };
+
+  const getAllTasks = async () => {
+    await Promise.all([getUnplannedTasks(), getSelectedDateTasks()]);
   };
 
   const preUpdateTaskPriorities = async (task: Task) => {
@@ -49,18 +51,18 @@ export const useGlobalStore = defineStore('global', () => {
 
   const updateTaskPriorities = async (tasks: Task[]) => {
     await tasksReq.updateTaskPrioritiesReq(tasks);
-    await Promise.all([getUnplannedTasks(), getSelectedDateTasks()]);
+    await getAllTasks();
   };
 
   const updateTask = async (task: Task) => {
     await tasksReq.updateTaskReq(task);
-    await Promise.all([getUnplannedTasks(), getSelectedDateTasks()]);
+    await getAllTasks();
   };
 
   const deleteTaskById = async (id: string) => {
     try {
       await tasksReq.deleteTaskReq(id);
-      await Promise.all([getUnplannedTasks(), getSelectedDateTasks()]);
+      await getAllTasks();
     } catch (error) {
       console.error('error', error);
     }
@@ -80,6 +82,7 @@ export const useGlobalStore = defineStore('global', () => {
     setSelectedDayIndex,
     getUnplannedTasks,
     getSelectedDateTasks,
+    getAllTasks,
     preUpdateTaskPriorities,
     updateTaskPriorities,
     deleteTaskById,
