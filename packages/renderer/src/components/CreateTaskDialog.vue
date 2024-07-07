@@ -23,16 +23,6 @@
       </template>
     </v-card>
   </v-dialog>
-  <v-fab
-    color="success"
-    icon="mdi-plus"
-    location="bottom end"
-    size="64"
-    absolute
-    app
-    appear
-    @click="openDialog"
-  ></v-fab>
 </template>
 <script setup lang="ts">
 import {ref} from 'vue';
