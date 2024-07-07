@@ -23,14 +23,15 @@
           key="unplanned-tasks-subheader"
           class="mx-3"
         >
-          Unplanned Tasks
+          Ongoing Tasks
         </v-list-subheader>
 
         <VueDraggable
           v-model="onGoingTasks"
           class="overflow-auto hide-scroller"
           :animation="200"
-          group="people"
+          ghost-class="ghost-task"
+          group="tasks"
           @update="onGoingTasksUpdate"
           @add="onGoingTasksAdd"
         >
@@ -99,8 +100,8 @@
           v-model="completedTasks"
           class="overflow-auto hide-scroller"
           :animation="200"
-          ghost-class="ghost"
-          group="people"
+          ghost-class="ghost-task"
+          group="tasks"
           @update="onCompletedTasksUpdate"
           @add="onCompletedTasksAdd"
         >
@@ -219,9 +220,10 @@ const onGoingTasksUpdate = async () => {
 };
 
 const onGoingTasksAdd = async (event: SortableEvent) => {
-  if (!event.newIndex && event.newIndex !== 0) return;
-  const newTask = onGoingTasks.value[event.newIndex];
-  await updateTask({...newTask, is_completed: false});
+  const newIndex = event.newIndex;
+  if (!newIndex && newIndex !== 0) return;
+  const newTask = onGoingTasks.value[newIndex];
+  await updateTask({...newTask, is_completed: false, is_unplanned: true, priority: newIndex + 1});
   console.log('onGoingTasksAdd:', newTask);
 };
 
@@ -234,10 +236,10 @@ const onCompletedTasksUpdate = async () => {
 };
 
 const onCompletedTasksAdd = async (event: SortableEvent) => {
-  console.log('event:', event);
-  if (!event.newIndex && event.newIndex !== 0) return;
-  const newTask = completedTasks.value[event.newIndex];
-  await updateTask({...newTask, is_completed: true});
+  const newIndex = event.newIndex;
+  if (!newIndex && newIndex !== 0) return;
+  const newTask = completedTasks.value[newIndex];
+  await updateTask({...newTask, is_completed: true, is_unplanned: true, priority: newIndex + 1});
   console.log('onCompletedTasksAdd:', newTask);
 };
 

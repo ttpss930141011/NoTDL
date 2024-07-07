@@ -21,33 +21,45 @@
           icon="mdi-refresh"
           variant="tonal"
           density="comfortable"
-          @click="() => getSelectedDateTasks()"
+          @click="getAllTasks"
         >
         </v-btn>
       </template>
-      <v-card
-        v-for="task in selectedDateTasks"
-        :key="task.id"
-        variant="text"
-        :subtitle="task.created_at!.toDateString()"
-        border="md"
-        rounded="xl"
-        class="ma-3"
+      <VueDraggable
+        v-model="selectedDateTasks"
+        group="tasks"
+        class="h-100"
+        ghost-class="tasks"
+        :animation="200"
+        @update="onSelectedTaskUpdate"
+        @add="onSelectedTaskAdd"
       >
-        <v-fab
-          class="me-4"
-          variant="tonal"
-          icon="mdi-delete"
-          absolute
-          offset
-          color="error"
-          density="comfortable"
-          @click="deleteTaskById(task.id)"
-        ></v-fab>
-        <v-card-title class="d-flex justify-space-between">
-          <p>{{ task.title }}</p>
-        </v-card-title>
-      </v-card>
+        <TransitionGroup
+          type="transition"
+          name="tasks"
+        >
+          <v-card
+            v-for="task in selectedDateTasks"
+            :key="task.id"
+            variant="text"
+            border="md"
+            rounded="xl"
+            class="ma-3"
+            append-icon="mdi-delete"
+            :title="task.title"
+          >
+            <template #append>
+              <v-btn
+                variant="text"
+                icon="mdi-delete"
+                color="red"
+                @click="() => handleDeleteTask(task.id)"
+              />
+              <v-checkbox-btn class="pe-2"></v-checkbox-btn>
+            </template>
+          </v-card>
+        </TransitionGroup>
+      </VueDraggable>
     </v-card>
   </v-sheet>
 </template>
@@ -56,12 +68,50 @@
 import {useGlobalStore} from '/@/store/global';
 import {storeToRefs} from 'pinia';
 import {onBeforeMount} from 'vue';
+import type {SortableEvent} from 'vue-draggable-plus';
+import {VueDraggable} from 'vue-draggable-plus';
 
 const globalStore = useGlobalStore();
-const {getSelectedDateTasks, deleteTaskById} = globalStore;
+const {getAllTasks, deleteTaskById, updateTask, updateTaskPriorities} = globalStore;
 const {selectedDateTasks} = storeToRefs(globalStore);
 
+const onSelectedTaskUpdate = async () => {
+  const newPrioritiesTasks = selectedDateTasks.value.map((task, index) => ({
+    ...task,
+    priority: index + 1,
+  }));
+  await updateTaskPriorities(newPrioritiesTasks);
+};
+
+const onSelectedTaskAdd = async (event: SortableEvent) => {
+  const newIndex = event.newIndex;
+  if (!newIndex && newIndex !== 0) return;
+  const newTask = selectedDateTasks.value[newIndex];
+  await updateTask({...newTask, is_unplanned: false, priority: newIndex + 1});
+  console.log('onGoingTasksAdd:', newTask);
+};
+
+const handleDeleteTask = async (taskId: string) => {
+  await deleteTaskById(taskId);
+  await getAllTasks();
+};
+
 onBeforeMount(() => {
-  getSelectedDateTasks();
+  getAllTasks();
 });
 </script>
+<style scoped>
+.tasks-enter-active {
+  transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+.tasks-enter-from,
+.tasks-leave-to {
+  opacity: 0;
+  transform: scaleY(0.01);
+}
+
+.tasks-leave-active {
+  position: absolute;
+}
+</style>
