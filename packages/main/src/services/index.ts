@@ -19,8 +19,10 @@ import type {
   UpdateTaskPriorities,
   UpdateTask,
 } from '#shared/task';
-import {chain} from '/@/agent/openai';
 import dayjs from 'dayjs';
+import type {GetIconByTitle} from '#shared/agent';
+import {chain as tasksAgent} from '/@/agent/tasks';
+import {chain as iconAgent} from '/@/agent/icon';
 
 export const getAllTasksService = async () => {
   console.log('getAllTasks');
@@ -98,7 +100,7 @@ export const preUpdateTaskPrioritiesService = async (
 ) => {
   const [task, existingTasks, extraPrompt = ''] = args;
   console.log('preUpdateTaskPrioritiesService', task, existingTasks);
-  const {prioritizedTasks} = await chain.invoke({
+  const {prioritizedTasks} = await tasksAgent.invoke({
     newTask: JSON.stringify(task),
     existingTasks: JSON.stringify(existingTasks),
     extraPrompt,
@@ -120,4 +122,9 @@ export const deleteTaskService = async (id: string) => {
 export const updateTaskService = async (...args: Parameters<UpdateTask>) => {
   const [task] = args;
   return await updateTask(task);
+};
+
+export const getIconByTitleService = async (...args: Parameters<GetIconByTitle>) => {
+  const [title] = args;
+  return await iconAgent.invoke({title});
 };

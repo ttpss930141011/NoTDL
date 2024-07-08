@@ -45,7 +45,7 @@
             >
               <div class="bg">
                 <v-card
-                  prepend-icon="mdi-check"
+                  :prepend-icon="task.icon"
                   class="task-card"
                 >
                   <template #title>
@@ -115,7 +115,7 @@
             >
               <div class="bg">
                 <v-card
-                  prepend-icon="mdi-check"
+                  :prepend-icon="task.icon"
                   class="task-card"
                 >
                   <template #title>
