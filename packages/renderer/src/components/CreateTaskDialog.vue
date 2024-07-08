@@ -5,9 +5,17 @@
   >
     <v-card
       min-width="600"
-      prepend-icon="mdi-calendar-check"
       title="New Task"
     >
+      <template #append>
+        <v-btn
+          icon="mdi-close"
+          density="compact"
+          size="large"
+          variant="text"
+          @click="dialog = false"
+        />
+      </template>
       <v-card-text>
         <TaskInputForm ref="taskInputFormRef" />
       </v-card-text>

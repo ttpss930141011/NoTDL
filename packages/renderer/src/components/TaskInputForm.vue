@@ -4,6 +4,14 @@
     label="What are you working on?"
     variant="solo"
   >
+    <template #prepend>
+      <v-icon
+        :icon="formProps.task.icon || 'mdi-calendar-check'"
+        density="compact"
+        variant="tonal"
+        :color="formProps.task.color || 'red'"
+      />
+    </template>
     <template #append-inner>
       <v-fade-transition>
         <v-btn
@@ -44,6 +52,7 @@
 import {ref, watch} from 'vue';
 import type {Task} from '#shared/task';
 import {debounce} from 'lodash';
+import {agent} from '#preload';
 
 interface Props {
   task: Partial<Task>;
@@ -66,18 +75,27 @@ const togglePanel = () => {
 };
 
 // simulate fetching mental load by task
-const getMentalLoadByTitle = async (title: string): Promise<number> => {
+const getMentalLoadByTitleReq = async (title: string): Promise<number> => {
   console.log('fetching mental load by title:', title);
   return await new Promise<number>(resolve =>
     setTimeout(() => resolve(Math.floor(Math.random() * 11)), 1000),
   );
 };
 
-const updateMentalLoad = debounce(async (title: Task['title']) => {
-  if (title) {
-    const data = await getMentalLoadByTitle(title);
-    formProps.value.task.mental_load = data;
+const updateMentalLoadByTitle = debounce(async (title: Task['title']) => {
+  if (!title) return;
+  const data = await getMentalLoadByTitleReq(title);
+  formProps.value.task.mental_load = data;
+}, 1000);
+
+const updateIconByTitle = debounce(async (title: Task['title']) => {
+  if (!title) {
+    formProps.value.task.icon = 'mdi-calendar-check';
+    return;
   }
+  const {icon} = await agent.getIconByTitleReq(title);
+  formProps.value.task.icon = icon;
+  console.log('icon:', icon);
 }, 1000);
 
 watch(
@@ -86,7 +104,8 @@ watch(
     if (!newTitle) {
       panel.value = '';
     } else {
-      updateMentalLoad(newTitle);
+      updateMentalLoadByTitle(newTitle);
+      updateIconByTitle(newTitle);
     }
   },
 );

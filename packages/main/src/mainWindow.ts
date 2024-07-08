@@ -13,6 +13,7 @@ import type {
   PreUpdateTaskPriorities,
   UpdateTask,
 } from '#shared/task';
+import type {GetIconByTitle} from '#shared/agent';
 import {
   createSelectedDateTaskService,
   createUnplannedTaskService,
@@ -24,6 +25,7 @@ import {
   updateTaskPrioritiesService,
   preUpdateTaskPrioritiesService,
   updateTaskService,
+  getIconByTitleService,
 } from '/@/services';
 
 /**
@@ -110,7 +112,7 @@ async function createWindow() {
 /**
  * Register the event listener for ipcMain.
  */
-export function registerIpcMain() {
+export function registerTaskIpcMain() {
   ipcMain.handle('getAllTasksReq', (_, ...args: Parameters<GetAllTasks>) =>
     getAllTasksService(...args),
   );
@@ -140,6 +142,12 @@ export function registerIpcMain() {
 
   ipcMain.handle('updateTaskReq', (_, ...args: Parameters<UpdateTask>) =>
     updateTaskService(...args),
+  );
+}
+
+export function registerAgentIpcMain() {
+  ipcMain.handle('getIconByTitleReq', (_, ...args: Parameters<GetIconByTitle>) =>
+    getIconByTitleService(...args),
   );
 }
 

@@ -48,6 +48,14 @@
             append-icon="mdi-delete"
             :title="task.title"
           >
+            <template #prepend>
+              <v-icon
+                :icon="task.icon"
+                density="compact"
+                variant="tonal"
+                :color="task.color"
+              />
+            </template>
             <template #append>
               <v-btn
                 variant="text"
