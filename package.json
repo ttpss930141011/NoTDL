@@ -69,7 +69,7 @@
     "sqlite3": "5.1.6",
     "swiper": "11.1.4",
     "typeorm": "0.3.20",
-    "vue-draggable-plus": "0.5.1",
+    "vue-draggable-plus": "0.5.2",
     "vuetify": "3.6.12"
   }
 }
