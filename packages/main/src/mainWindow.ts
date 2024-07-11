@@ -23,10 +23,9 @@ import {
   getSelectedDateTasksService,
   getAllUnplannedTasksService,
   updateTaskPrioritiesService,
-  preUpdateTaskPrioritiesService,
   updateTaskService,
-  getIconByTitleService,
-} from '/@/services';
+} from '/@/services/task';
+import {getIconByTitleService, preUpdateTaskPrioritiesService} from '/@/services/agent';
 
 /**
  * Create a new DataSource.

@@ -2,11 +2,11 @@ import {
   createTask,
   deleteTask,
   getAllTasks,
-  getAllUnplannedTasks,
-  getAllTaskTitles,
   getAllTasksWithinDateRange,
-  updateTaskPriorities,
+  getAllTaskTitles,
+  getAllUnplannedTasks,
   updateTask,
+  updateTaskPriorities,
 } from '/@/database/repository/TasksRepo';
 import type {
   CreateSelectedDateTask,
@@ -14,15 +14,11 @@ import type {
   GetAllTaskTitles,
   GetSelectedDateTasks,
   NewTask,
-  PreUpdateTaskPriorities,
   Task,
-  UpdateTaskPriorities,
   UpdateTask,
+  UpdateTaskPriorities,
 } from '#shared/task';
 import dayjs from 'dayjs';
-import type {GetIconByTitle} from '#shared/agent';
-import {chain as tasksAgent} from '/@/agent/tasks';
-import {chain as iconAgent} from '/@/agent/icon';
 
 export const getAllTasksService = async () => {
   console.log('getAllTasks');
@@ -95,19 +91,6 @@ export const createSelectedDateTaskService = async (
   });
 };
 
-export const preUpdateTaskPrioritiesService = async (
-  ...args: Parameters<PreUpdateTaskPriorities>
-) => {
-  const [task, existingTasks, extraPrompt = ''] = args;
-  console.log('preUpdateTaskPrioritiesService', task, existingTasks);
-  const {prioritizedTasks} = await tasksAgent.invoke({
-    newTask: JSON.stringify(task),
-    existingTasks: JSON.stringify(existingTasks),
-    extraPrompt,
-  });
-  return prioritizedTasks;
-};
-
 export const updateTaskPrioritiesService = async (...args: Parameters<UpdateTaskPriorities>) => {
   const [tasks] = args;
   await updateTaskPriorities(tasks);
@@ -122,9 +105,4 @@ export const deleteTaskService = async (id: string) => {
 export const updateTaskService = async (...args: Parameters<UpdateTask>) => {
   const [task] = args;
   return await updateTask(task);
-};
-
-export const getIconByTitleService = async (...args: Parameters<GetIconByTitle>) => {
-  const [title] = args;
-  return await iconAgent.invoke({title});
 };
