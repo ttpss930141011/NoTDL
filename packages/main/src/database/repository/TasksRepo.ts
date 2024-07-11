@@ -1,16 +1,26 @@
-import {Task} from '../entity/Task';
+import {Task} from '/@/database/entity/Task';
 import type {Task as TaskInterface} from '#shared/task';
 import {datasource} from '../index';
 import {Between} from 'typeorm';
 
-export const getAllTasks = async () => {
+export const getAllTasks = async (): Promise<Task[]> => {
   const taskRepository = datasource.getRepository(Task);
-  return await taskRepository.find();
+  try {
+    return await taskRepository.find();
+  } catch (error) {
+    console.error('Failed to get all tasks:', error);
+    throw error;
+  }
 };
 
-export const getAllUnplannedTasks = async () => {
+export const getAllUnplannedTasks = async (): Promise<Task[]> => {
   const taskRepository = datasource.getRepository(Task);
-  return await taskRepository.find({where: {is_unplanned: true}});
+  try {
+    return await taskRepository.find({where: {is_unplanned: true}});
+  } catch (error) {
+    console.error('Failed to get unplanned tasks:', error);
+    throw error;
+  }
 };
 
 export const getAllTasksWithinDateRange = async (
@@ -18,37 +28,66 @@ export const getAllTasksWithinDateRange = async (
   endDate: Date,
 ): Promise<Task[]> => {
   const taskRepository = datasource.getRepository(Task);
-  return taskRepository.find({
-    where: {task_date: Between(startDate, endDate)},
-  });
-};
-
-// Function to update task priorities in the database
-export const updateTaskPriorities = async (tasks: TaskInterface[]) => {
-  const taskRepository = datasource.getRepository(Task);
-  for (const task of tasks) {
-    await taskRepository.update({id: task.id}, {priority: task.priority});
+  try {
+    return await taskRepository.find({
+      where: {task_date: Between(startDate, endDate)},
+    });
+  } catch (error) {
+    console.error('Failed to get tasks within date range:', error);
+    throw error;
   }
 };
 
-export const getAllTaskTitles = async () => {
+export const updateTaskPriorities = async (tasks: TaskInterface[]): Promise<void> => {
   const taskRepository = datasource.getRepository(Task);
-  const tasks = await taskRepository.find({select: ['title']});
-  return tasks.map(task => task.title);
+  try {
+    for (const task of tasks) {
+      await taskRepository.update({id: task.id}, {priority: task.priority});
+    }
+  } catch (error) {
+    console.error('Failed to update task priorities:', error);
+    throw error;
+  }
 };
 
-export const createTask = async (newTask: Partial<Task>) => {
+export const getAllTaskTitles = async (): Promise<string[]> => {
   const taskRepository = datasource.getRepository(Task);
-  const task = taskRepository.create(newTask);
-  return await taskRepository.save(task);
+  try {
+    const tasks = await taskRepository.find({select: ['title']});
+    return tasks.map(task => task.title);
+  } catch (error) {
+    console.error('Failed to get all task titles:', error);
+    throw error;
+  }
 };
 
-export const deleteTask = async (id: string) => {
+export const createTask = async (newTask: Partial<Task>): Promise<Task> => {
   const taskRepository = datasource.getRepository(Task);
-  return await taskRepository.delete(id);
+  try {
+    const task = taskRepository.create(newTask);
+    return await taskRepository.save(task);
+  } catch (error) {
+    console.error('Failed to create a task:', error);
+    throw error;
+  }
 };
 
-export const updateTask = async (task: TaskInterface) => {
+export const deleteTask = async (id: string): Promise<void> => {
   const taskRepository = datasource.getRepository(Task);
-  return await taskRepository.update({id: task.id}, task);
+  try {
+    await taskRepository.delete(id);
+  } catch (error) {
+    console.error('Failed to delete task:', error);
+    throw error;
+  }
+};
+
+export const updateTask = async (task: TaskInterface): Promise<void> => {
+  const taskRepository = datasource.getRepository(Task);
+  try {
+    await taskRepository.update({id: task.id}, task);
+  } catch (error) {
+    console.error('Failed to update task:', error);
+    throw error;
+  }
 };
