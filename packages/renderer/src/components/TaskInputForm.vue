@@ -82,13 +82,13 @@ const getMentalLoadByTitleReq = async (title: string): Promise<number> => {
   );
 };
 
-const updateMentalLoadByTitle = debounce(async (title: Task['title']) => {
+const updateMentalLoadByTitle = debounce(async (title: Task['title'] | undefined) => {
   if (!title) return;
   const data = await getMentalLoadByTitleReq(title);
   formProps.value.task.mental_load = data;
 }, 1000);
 
-const updateIconByTitle = debounce(async (title: Task['title']) => {
+const updateIconByTitle = debounce(async (title: Task['title'] | undefined) => {
   if (!title) {
     formProps.value.task.icon = 'mdi-calendar-check';
     return;
@@ -101,12 +101,9 @@ const updateIconByTitle = debounce(async (title: Task['title']) => {
 watch(
   () => formProps.value.task.title,
   newTitle => {
-    if (!newTitle) {
-      panel.value = '';
-    } else {
-      updateMentalLoadByTitle(newTitle);
-      updateIconByTitle(newTitle);
-    }
+    if (!newTitle) panel.value = '';
+    updateMentalLoadByTitle(newTitle);
+    updateIconByTitle(newTitle);
   },
 );
 

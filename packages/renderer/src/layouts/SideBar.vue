@@ -44,10 +44,14 @@
               :key="task.id"
             >
               <div class="bg">
-                <v-card
-                  :prepend-icon="task.icon"
-                  class="task-card"
-                >
+                <v-card class="task-card">
+                  <template #prepend>
+                    <v-icon
+                      :icon="task.icon"
+                      :color="task.color"
+                      size="20"
+                    />
+                  </template>
                   <template #title>
                     <div
                       :class="
@@ -114,10 +118,14 @@
               :key="task.id"
             >
               <div class="bg">
-                <v-card
-                  :prepend-icon="task.icon"
-                  class="task-card"
-                >
+                <v-card class="task-card">
+                  <template #prepend>
+                    <v-icon
+                      :icon="task.icon"
+                      :color="task.color"
+                      size="20"
+                    />
+                  </template>
                   <template #title>
                     <div
                       :class="
@@ -150,9 +158,28 @@
     <v-divider></v-divider>
     <v-list>
       <v-list-item
-        prepend-avatar="https://avatars.githubusercontent.com/u/23444218?v=4"
-        title="Justin Xiao"
+        v-if="currentUser"
+        :title="currentUser.name"
       >
+        <template #prepend>
+          <v-avatar
+            v-if="currentUser.picture"
+            size="40"
+            class="mx-1"
+          >
+            <v-img
+              alt="Avatar"
+              :src="currentUser.picture"
+            ></v-img>
+          </v-avatar>
+          <v-avatar
+            v-else
+            size="40"
+            class="mx-1"
+          >
+            <v-icon>mdi-account</v-icon>
+          </v-avatar>
+        </template>
         <template #append>
           <v-btn
             class="mx-1"
@@ -170,9 +197,21 @@
             size="small"
             slim
             density="compact"
+            @click="handleUserLogout"
           >
           </v-btn>
         </template>
+      </v-list-item>
+      <v-list-item v-else>
+        <v-btn
+          color="primary"
+          block
+          variant="tonal"
+          prepend-icon="mdi-login"
+          @click="handleUserLogin"
+        >
+          Login
+        </v-btn>
       </v-list-item>
     </v-list>
     <v-divider></v-divider>
@@ -190,6 +229,8 @@ import clsx from 'clsx';
 import type {Task} from '#shared/task';
 import type {SortableEvent} from 'vue-draggable-plus';
 import {VueDraggable} from 'vue-draggable-plus';
+import {user as usersReq} from '#preload';
+import type {User} from '#shared/auth';
 
 const props = defineProps({
   drawer: Boolean,
@@ -205,6 +246,7 @@ const {unplannedTasks} = storeToRefs(globalStore);
 
 const completedTasks = ref<Task[]>([]);
 const onGoingTasks = ref<Task[]>([]);
+const currentUser = ref<User | null>(null);
 
 watch(unplannedTasks, () => {
   completedTasks.value = unplannedTasks.value.filter(task => task.is_completed);
@@ -252,7 +294,34 @@ const handleDeleteTask = async (task: Task | null) => {
   }
 };
 
+const handleUserLogin = async () => {
+  try {
+    await usersReq.userLoginReq();
+    await loadCurrentUser();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const loadCurrentUser = async () => {
+  try {
+    currentUser.value = await usersReq.getCurrentUserReq();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const handleUserLogout = async () => {
+  try {
+    await usersReq.userLogoutReq();
+    currentUser.value = null;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 onBeforeMount(() => {
+  loadCurrentUser();
   getUnplannedTasks();
 });
 </script>
