@@ -32,8 +32,12 @@ import {getIconByTitleService, preUpdateTaskPrioritiesService} from '/@/services
  */
 async function createDataSource() {
   try {
-    await datasource.initialize();
-    console.log('DataSource initialized.');
+    if (datasource.isInitialized) {
+      console.log('DataSource already connected.');
+    } else {
+      await datasource.initialize();
+      console.log('DataSource initialized.');
+    }
   } catch (error) {
     console.error(error);
   }
