@@ -1,6 +1,11 @@
 import {app} from 'electron';
 import './security-restrictions';
-import {registerAgentIpcMain, registerTaskIpcMain, restoreOrCreateWindow} from '/@/mainWindow';
+import {
+  registerAgentIpcMain,
+  registerOAuthIpcMain,
+  registerTaskIpcMain,
+  restoreOrCreateWindow,
+} from '/@/mainWindow';
 import {platform} from 'node:process';
 import updater from 'electron-updater';
 
@@ -40,6 +45,7 @@ app
   .whenReady()
   .then(registerTaskIpcMain)
   .then(registerAgentIpcMain)
+  .then(registerOAuthIpcMain)
   .then(restoreOrCreateWindow)
   .catch(e => console.error('Failed create window:', e));
 

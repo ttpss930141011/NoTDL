@@ -16,7 +16,12 @@ type Permission = Parameters<
  */
 const ALLOWED_ORIGINS_AND_PERMISSIONS = new Map<string, Set<Permission>>(
   import.meta.env.DEV && import.meta.env.VITE_DEV_SERVER_URL
-    ? [[new URL(import.meta.env.VITE_DEV_SERVER_URL).origin, new Set()]]
+    ? [
+      [new URL(import.meta.env.VITE_DEV_SERVER_URL).origin, new Set()],
+      ['https://dev-p7u7b4caunxeh6du.us.auth0.com', new Set()],
+      ['https://accounts.google.com', new Set()],
+      ['https://login.us.auth0.com', new Set()],
+    ]
     : [],
 );
 
