@@ -23,18 +23,23 @@ import {
   getSelectedDateTasksService,
   getAllUnplannedTasksService,
   updateTaskPrioritiesService,
-  preUpdateTaskPrioritiesService,
   updateTaskService,
-  getIconByTitleService,
-} from '/@/services';
+} from '/@/services/task';
+import {getIconByTitleService, preUpdateTaskPrioritiesService} from '/@/services/agent';
+import {refreshTokens, userLoginService, userLogoutService} from '/@/services/auth';
+import {getOneUserWithIsActive} from '/@/database/repository/UserRepo';
 
 /**
  * Create a new DataSource.
  */
 async function createDataSource() {
   try {
-    await datasource.initialize();
-    console.log('DataSource initialized.');
+    if (datasource.isInitialized) {
+      console.log('DataSource already connected.');
+    } else {
+      await datasource.initialize();
+      console.log('DataSource initialized.');
+    }
   } catch (error) {
     console.error(error);
   }
@@ -44,7 +49,6 @@ async function createDataSource() {
  * Create a new BrowserWindow.
  */
 async function createWindow() {
-  console.log(join(app.getAppPath(), 'packages/main/assets/icon.png'));
   const browserWindow = new BrowserWindow({
     width: 800,
     height: 600,
@@ -77,6 +81,7 @@ async function createWindow() {
    */
   browserWindow.on('ready-to-show', () => {
     browserWindow?.show();
+    refreshTokens();
 
     if (import.meta.env.DEV) {
       browserWindow?.webContents.openDevTools();
@@ -149,6 +154,12 @@ export function registerAgentIpcMain() {
   ipcMain.handle('getIconByTitleReq', (_, ...args: Parameters<GetIconByTitle>) =>
     getIconByTitleService(...args),
   );
+}
+
+export function registerOAuthIpcMain() {
+  ipcMain.handle('userLoginReq', userLoginService);
+  ipcMain.handle('userLogoutReq', userLogoutService);
+  ipcMain.handle('getCurrentUserReq', getOneUserWithIsActive);
 }
 
 /**
