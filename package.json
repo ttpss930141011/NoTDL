@@ -56,7 +56,7 @@
   },
   "dependencies": {
     "@langchain/community": "0.2.19",
-    "@langchain/openai": "0.2.2",
+    "@langchain/openai": "0.2.3",
     "axios": "1.7.2",
     "clsx": "2.1.1",
     "dayjs": "1.11.11",
