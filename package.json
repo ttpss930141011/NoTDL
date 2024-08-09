@@ -62,7 +62,7 @@
     "dayjs": "1.11.12",
     "electron-updater": "6.2.1",
     "jwt-decode": "4.0.0",
-    "langchain": "0.2.13",
+    "langchain": "0.2.14",
     "lodash": "4.17.21",
     "pinia": "2.2.1",
     "reflect-metadata": "0.2.2",
