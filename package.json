@@ -70,6 +70,6 @@
     "swiper": "11.1.9",
     "typeorm": "0.3.20",
     "vue-draggable-plus": "0.5.3",
-    "vuetify": "3.6.14"
+    "vuetify": "3.7.0"
   }
 }
