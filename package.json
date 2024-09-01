@@ -42,7 +42,7 @@
     "electron-builder": "24.13.3",
     "eslint": "9.9.1",
     "eslint-plugin-vue": "9.27.0",
-    "happy-dom": "15.7.2",
+    "happy-dom": "15.7.3",
     "nano-staged": "0.8.0",
     "playwright": "1.46.1",
     "resize-observer-polyfill": "1.5.1",
