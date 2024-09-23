@@ -33,7 +33,7 @@
   "devDependencies": {
     "@mdi/font": "7.4.47",
     "@types/lodash": "4.17.9",
-    "@types/node": "20.16.5",
+    "@types/node": "20.16.6",
     "@typescript-eslint/eslint-plugin": "8.6.0",
     "@vitejs/plugin-vue": "5.1.4",
     "@vue/test-utils": "2.4.6",
