@@ -55,7 +55,7 @@
     "vue-tsc": "2.1.6"
   },
   "dependencies": {
-    "@langchain/community": "0.3.2",
+    "@langchain/community": "0.3.3",
     "@langchain/openai": "0.3.2",
     "axios": "1.7.7",
     "clsx": "2.1.1",
