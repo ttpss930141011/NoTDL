@@ -67,7 +67,7 @@
     "pinia": "2.2.6",
     "reflect-metadata": "0.2.2",
     "sqlite3": "5.1.7",
-    "swiper": "11.1.14",
+    "swiper": "11.1.15",
     "typeorm": "0.3.20",
     "vue-draggable-plus": "0.6.0",
     "vuetify": "3.7.4"
